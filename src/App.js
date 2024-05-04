@@ -20,11 +20,14 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
+  Progress,
 } from '@chakra-ui/react';
-import { uploadData } from 'aws-amplify/storage';
 import { FaSun, FaMoon } from 'react-icons/fa';
 import { Amplify } from 'aws-amplify';
+import { uploadData } from 'aws-amplify/storage';
 import awsExports from './aws-exports';
+import startRecordingSound from './sounds/start-recording.mp3';
+import stopRecordingSound from './sounds/stop-recording.mp3';
 
 Amplify.configure(awsExports);
 
@@ -54,6 +57,8 @@ function App() {
   const [mediaRecorder, setMediaRecorder] = useState(null);
   // const [audioBlob, setAudioBlob] = useState(null); // Commented out for testing purposes
   const [isPolicyModalOpen, setPolicyModalOpen] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [submissionStatus, setSubmissionStatus] = useState(null);
   const toast = useToast();
   const { colorMode, toggleColorMode, setColorMode } = useColorMode();
 
@@ -72,14 +77,28 @@ function App() {
 
   const handleTextChange = (e) => setTextData(e.target.value);
 
+  const playSound = (soundFile) => {
+    const audio = new Audio(soundFile);
+    audio.play();
+  };
+
   const startRecording = async () => {
+    // Inform the user about the microphone permission prompt
+    toast({
+      title: 'Microphone Access',
+      description: 'You will be prompted to allow microphone access. Please select "Allow" to start recording.',
+      status: 'info',
+      duration: 5000,
+      isClosable: true,
+    });
+
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const recorder = new MediaRecorder(stream);
       setMediaRecorder(recorder);
-      // recorder.ondataavailable = (e) => setAudioBlob(e.data); // Commented out for testing purposes
       recorder.start();
       setIsRecording(true);
+      playSound(startRecordingSound); // Play start recording sound
     } catch (error) {
       toast({
         title: 'Error accessing your microphone',
@@ -95,6 +114,7 @@ function App() {
     if (mediaRecorder) {
       mediaRecorder.stop();
       setIsRecording(false);
+      playSound(stopRecordingSound); // Play stop recording sound
     }
   };
 
@@ -104,10 +124,18 @@ function App() {
         // Upload text data as a file
         const textFileName = `textData-${Date.now()}.txt`;
         const textFile = new Blob([textData], { type: 'text/plain' });
-        await uploadData(textFileName, textFile, {
-          contentType: 'text/plain'
+        await uploadData({
+          path: textFileName,
+          data: textFile,
+          options: {
+            contentType: 'text/plain',
+            progressCallback(progress) {
+              const uploadPercentage = Math.round((progress.loaded / progress.total) * 100);
+              setUploadProgress(uploadPercentage);
+            },
+          },
         });
-
+        setSubmissionStatus('success');
         // Display a toast on successful submission for user feedback
         toast({
           title: 'Data submitted successfully.',
@@ -119,8 +147,9 @@ function App() {
 
         // Clear the form
         setTextData('');
-        // setAudioBlob(null); // Commented out for testing purposes
+        setUploadProgress(0); // Reset upload progress after submission
       } catch (error) {
+        setSubmissionStatus('error');
         toast({
           title: 'Submission failed.',
           description: 'There was an error uploading your data.',
@@ -145,7 +174,7 @@ function App() {
   return (
     <ChakraProvider theme={customTheme}>
       <Box position="relative" textAlign="center" fontSize="xl" minHeight="100vh" py={10}>
-        <Image src="lady_cat_7.jpg" alt="Cultural Hut" opacity="0.8" position="absolute" top="0" left="0" width="full" height="full" objectFit="cover" zIndex="-1" />
+        {/* <Image src="lady_cat_7.jpg" alt="Cultural Hut" opacity="0.8" position="absolute" top="0" left="0" width="full" height="full" objectFit="cover" zIndex="-1" /> */}
         <Box position="absolute" bottom="4" right="4" zIndex="2" width="150px" height="auto">
           <Image src="susan_signature.jpg" alt="Susan Ngatia's Signature" opacity="1" />
         </Box>
@@ -156,6 +185,11 @@ function App() {
             <Text fontSize="md">
               Please submit text data and voice recordings specifically for the Kikuyu language.
             </Text>
+            {submissionStatus === 'success' && (
+              <Text fontSize="lg" color="green.500" my={4}>
+                Your submission has been successfully received. Thank you!
+              </Text>
+            )}
             <FormControl id="text-data-form">
               <FormLabel>Text Data</FormLabel>
               <Textarea
@@ -165,6 +199,9 @@ function App() {
                 size="sm"
               />
             </FormControl>
+            {isRecording && (
+              <Text color="red.500">Recording in progress...</Text>
+            )}
             {isRecording ? (
               <Button onClick={stopRecording} colorScheme="red" size="lg">
                 Stop Recording
@@ -173,6 +210,9 @@ function App() {
               <Button onClick={startRecording} colorScheme="green" size="lg">
                 Start Recording
               </Button>
+            )}
+            {uploadProgress > 0 && (
+              <Progress value={uploadProgress} size="xs" colorScheme="green" />
             )}
             <Button
               onClick={handleSubmit}
