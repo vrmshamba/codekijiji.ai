@@ -145,16 +145,16 @@ function App() {
   return (
     <ChakraProvider theme={customTheme}>
       <Box position="relative" textAlign="center" fontSize="xl" minHeight="100vh" py={10}>
-        <Image src="/home/ubuntu/browser_downloads/lady_cat_7.jpg" alt="Cultural Hut" opacity={colorMode === 'light' ? "0.4" : "0.6"} position="absolute" top="0" left="0" width="full" height="full" objectFit="cover" zIndex="-1" />
+        <Image src="/lady_cat_7.jpg" alt="Cultural Hut" opacity={colorMode === 'light' ? "0.8" : "1"} position="absolute" top="0" left="0" width="full" height="full" objectFit="cover" zIndex="-1" />
         <Box position="absolute" bottom="3" right="3" zIndex="2" width="100px" height="auto">
-          <Image src="/home/ubuntu/browser_downloads/susan_signature.jpg" alt="Susan Ngatia's Signature" opacity="0.5" />
+          <Image src="/susan_signature.jpg" alt="Susan Ngatia's Signature" opacity="0.7" />
         </Box>
         <Box bg={colorMode === 'light' ? 'white' : 'brand.800'} color={colorMode === 'light' ? 'brand.800' : 'white'}>
           <VStack spacing={8} maxWidth="xl" mx="auto" p={4}>
             <IconButton icon={colorMode === 'light' ? <FaMoon /> : <FaSun />} isRound="true" size="lg" alignSelf="flex-end" m={4} onClick={handleToggleColorMode} />
-            <Text fontSize="3xl" fontWeight="bold">Welcome to CodeKiiJiji Data Collection Interface</Text>
+            <Text fontSize="3xl" fontWeight="bold">Welcome to the Kikuyu Language Data Collection Interface</Text>
             <Text fontSize="md">
-              Please submit text data and voice recordings for the Kenyan languages.
+              Please submit text data and voice recordings specifically for the Kikuyu language.
             </Text>
             <FormControl id="text-data-form">
               <FormLabel>Text Data</FormLabel>
