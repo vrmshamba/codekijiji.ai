@@ -145,8 +145,8 @@ function App() {
   return (
     <ChakraProvider theme={customTheme}>
       <Box position="relative" textAlign="center" fontSize="xl" minHeight="100vh" py={10}>
-        <Image src="lady_cat_7.jpg" alt="Cultural Hut" opacity="1" position="absolute" top="0" left="0" width="full" height="full" objectFit="cover" zIndex="-1" />
-        <Box position="absolute" bottom="10" right="10" zIndex="2" width="250px" height="auto">
+        <Image src="lady_cat_7.jpg" alt="Cultural Hut" opacity="0.8" position="absolute" top="0" left="0" width="full" height="full" objectFit="cover" zIndex="-1" />
+        <Box position="absolute" bottom="4" right="4" zIndex="2" width="150px" height="auto">
           <Image src="susan_signature.jpg" alt="Susan Ngatia's Signature" opacity="1" />
         </Box>
         <Box bg={colorMode === 'light' ? 'white' : 'brand.800'} color={colorMode === 'light' ? 'brand.800' : 'white'}>
