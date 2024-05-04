@@ -11,3 +11,32 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+  /* Adjust styles for smaller screens */
+  .container {
+    width: 95%;
+    padding: 0 10px;
+  }
+
+  .form-control {
+    margin: 10px 0;
+  }
+
+  .button {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  /* Adjust image and signature sizes for better visibility */
+  .background-image {
+    height: auto;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .signature-image {
+    width: 150px; /* Adjusted for better fit on smaller screens */
+  }
+}
