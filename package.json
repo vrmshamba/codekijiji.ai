@@ -2,7 +2,7 @@
   "name": "frontend_build",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://{username}.github.io/{repo-name}",
+  "homepage": "https://pichasue.github.io/codekijiji.ai",
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.4",
