@@ -115,6 +115,8 @@ function App() {
       mediaRecorder.stop();
       setIsRecording(false);
       playSound(stopRecordingSound); // Play stop recording sound
+      // Stop all media tracks
+      mediaRecorder.stream.getTracks().forEach(track => track.stop());
       // Add a toast message to inform the user that the recording has stopped
       toast({
         title: 'Recording stopped.',
@@ -224,7 +226,7 @@ function App() {
             )}
             <Button
               onClick={handleSubmit}
-              colorScheme="brand"
+              className={`button-submit ${textData ? '' : 'button-submit-disabled'}`}
               size="lg"
               isDisabled={!textData}
             >

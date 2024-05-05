@@ -40,3 +40,23 @@ code {
     width: 150px; /* Adjusted for better fit on smaller screens */
   }
 }
+
+/* Styles for the submit button */
+.button-submit {
+  transition: background-color 0.3s ease;
+}
+
+.button-submit:not([disabled]) {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}
+
+.button-submit:not([disabled]):hover {
+  background-color: #45a049;
+}
+
+.button-submit[disabled] {
+  background-color: #f44336; /* Red */
+  color: white;
+  cursor: not-allowed;
+}
