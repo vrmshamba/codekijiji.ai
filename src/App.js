@@ -115,6 +115,14 @@ function App() {
       mediaRecorder.stop();
       setIsRecording(false);
       playSound(stopRecordingSound); // Play stop recording sound
+      // Add a toast message to inform the user that the recording has stopped
+      toast({
+        title: 'Recording stopped.',
+        description: 'Your recording has been stopped and is ready to be submitted.',
+        status: 'info',
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
 
