@@ -1,6 +1,8 @@
 import pandas as pd
 import plotly.express as px
 import plotly.figure_factory as ff
+import scipy.stats as stats
+import statsmodels.api as sm
 
 def load_data(file_path):
     """
@@ -98,6 +100,51 @@ def summarize_data(data):
     else:
         print("Data is not available for summary statistics.")
         return None
+
+def perform_linear_regression(data, independent_var, dependent_var):
+    """
+    Perform simple linear regression analysis on two specified columns of the data.
+    """
+    if data is not None and independent_var in data.columns and dependent_var in data.columns:
+        X = sm.add_constant(data[independent_var])  # adding a constant
+        model = sm.OLS(data[dependent_var], X).fit()
+        predictions = model.predict(X)
+        print_model = model.summary()
+        print(print_model)
+    else:
+        print(f"One or both columns {independent_var}, {dependent_var} not found in data.")
+
+def perform_multiple_regression(data, independent_vars, dependent_var):
+    """
+    Perform multiple regression analysis on specified independent variables and a single dependent variable.
+    """
+    if data is not None and all(var in data.columns for var in independent_vars) and dependent_var in data.columns:
+        X = sm.add_constant(data[independent_vars])  # adding a constant
+        model = sm.OLS(data[dependent_var], X).fit()
+        print(model.summary())
+    else:
+        print(f"Some columns specified for multiple regression not found in data.")
+
+def perform_logistic_regression(data, independent_vars, dependent_var):
+    """
+    Perform logistic regression analysis on specified independent variables and a binary dependent variable.
+    """
+    if data is not None and all(var in data.columns for var in independent_vars) and dependent_var in data.columns:
+        X = sm.add_constant(data[independent_vars])  # adding a constant
+        model = sm.Logit(data[dependent_var], X).fit()
+        print(model.summary())
+    else:
+        print(f"Some columns specified for logistic regression not found in data.")
+
+def perform_hypothesis_testing(data, column1, column2):
+    """
+    Perform hypothesis testing between two specified columns of the data.
+    """
+    if data is not None and column1 in data.columns and column2 in data.columns:
+        stat, p_value = stats.ttest_ind(data[column1], data[column2])
+        print(f"T-test result for {column1} and {column2}: Statistic={stat}, P-value={p_value}")
+    else:
+        print(f"One or both columns {column1}, {column2} not found in data for hypothesis testing.")
 
 # Main section to call functions with actual data
 if __name__ == "__main__":
