@@ -5,7 +5,7 @@
             "Sid": "AllowPutObject",
             "Effect": "Allow",
             "Principal": {
-                "AWS": "arn:aws:iam::094402548679:user/susanngatia"
+                "AWS": "arn:aws:iam::094402548679:user/codekijiji.ai"
             },
             "Action": "s3:PutObject",
             "Resource": "arn:aws:s3:::codekiijiji-data-collection/*"
