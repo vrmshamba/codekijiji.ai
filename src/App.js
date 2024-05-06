@@ -28,6 +28,7 @@ import { uploadData } from 'aws-amplify/storage';
 import awsExports from './aws-exports';
 import startRecordingSound from './sounds/start-recording.mp3';
 import stopRecordingSound from './sounds/stop-recording.mp3';
+import DataInsights from './DataInsights';
 
 Amplify.configure(awsExports);
 
@@ -237,9 +238,10 @@ function App() {
                 Your submission has been successfully received. Thank you!
               </Text>
             )}
+            <DataInsights />
             <Button
               as="a"
-              href="https://forms.gle/MwXfXSNcdnDtdzZX8" // Actual Google Form link
+              href="https://magenta-rabanadas-fe0ef7.netlify.app/" // Corrected Google Form link
               target="_blank"
               colorScheme="teal"
               size="lg"
