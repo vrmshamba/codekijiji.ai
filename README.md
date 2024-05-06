@@ -4,7 +4,7 @@ This project is part of the initiative to develop a Language Learning Model (LLM
 
 ## Development
 
-This project was developed using React and Chakra UI for a responsive and accessible user interface. Contributions to the project are managed via GitHub and continuous integration/deployment.
+This project was developed using React and Chakra UI for a responsive and accessible user interface. Contributions to the project are managed via GitHub and continuous integration/deployment. Recent updates include the integration of a Google Form for partnership inquiries and enhancements to the data analysis script for improved visualization.
 
 ## Running the Project Locally
 
@@ -23,6 +23,15 @@ The project includes a Python script `data_analysis_template.py` for data analys
 1. Ensure you have Python and the necessary libraries installed.
 2. Navigate to the `frontend_build` directory.
 3. Run `python data_analysis_template.py` to execute the script and generate visualizations.
+
+## Testing
+
+To ensure the reliability and user-friendliness of the application, a comprehensive test suite has been developed. This includes unit tests for the React components and integration tests for the AWS services. To run the tests:
+
+1. Navigate to the `frontend_build` directory.
+2. Run `npm test` to execute the test suite.
+
+Please note that any new features should be accompanied by corresponding tests to maintain the quality and stability of the application.
 
 ## Contributing
 
