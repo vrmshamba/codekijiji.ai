@@ -241,7 +241,7 @@ function App() {
             <DataInsights />
             <Button
               as="a"
-              href="https://magenta-rabanadas-fe0ef7.netlify.app/" // Corrected Google Form link
+              href="https://forms.gle/MwXfXSNcdnDtdzZX8" // Correct Google Form link
               target="_blank"
               colorScheme="teal"
               size="lg"
