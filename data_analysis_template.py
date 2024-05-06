@@ -1,5 +1,6 @@
 import pandas as pd
 import plotly.express as px
+import plotly.figure_factory as ff
 
 def load_data(file_path):
     """
@@ -47,6 +48,57 @@ def visualize_data_scatter(data, column1, column2, output_path):
     else:
         print(f"One or both columns {column1}, {column2} not found in data.")
 
+def visualize_data_time_series(data, column, output_path):
+    """
+    Create an interactive time series plot for a specified column of the data and save it as an HTML file.
+    """
+    if data is not None and column in data.columns:
+        fig = px.line(data, x='date', y=column)
+        fig.write_html(f"{output_path}/time_series_{column}.html")
+        print(f"Interactive Time Series Plot of {column} saved as time_series_{column}.html")
+    else:
+        print(f"Column {column} not found in data.")
+
+def visualize_data_box(data, column, output_path):
+    """
+    Create an interactive box plot for a specified column of the data and save it as an HTML file.
+    """
+    if data is not None and column in data.columns:
+        fig = px.box(data, y=column)
+        fig.write_html(f"{output_path}/box_plot_{column}.html")
+        print(f"Interactive Box Plot of {column} saved as box_plot_{column}.html")
+    else:
+        print(f"Column {column} not found in data.")
+
+def visualize_correlation_matrix(data, output_path):
+    """
+    Create an interactive correlation matrix heatmap for the data and save it as an HTML file.
+    """
+    if data is not None:
+        fig = ff.create_annotated_heatmap(
+            z=data.corr().values,
+            x=list(data.columns),
+            y=list(data.columns),
+            annotation_text=data.corr().round(2).values,
+            showscale=True
+        )
+        fig.write_html(f"{output_path}/correlation_matrix.html")
+        print("Interactive Correlation Matrix saved as correlation_matrix.html")
+    else:
+        print("Data is not available for correlation matrix.")
+
+def summarize_data(data):
+    """
+    Generate summary statistics for the data.
+    """
+    if data is not None:
+        summary = data.describe()
+        print("Summary statistics generated.")
+        return summary
+    else:
+        print("Data is not available for summary statistics.")
+        return None
+
 # Main section to call functions with actual data
 if __name__ == "__main__":
     # Replace 'actual_data.csv' with the path to the actual data file
@@ -57,3 +109,8 @@ if __name__ == "__main__":
     # Replace 'column_name' with the actual column names
     visualize_data_histogram(data, 'language', output_path)
     visualize_data_scatter(data, 'submitted_at', 'user_id', output_path)
+    visualize_data_time_series(data, 'submitted_at', output_path)
+    visualize_data_box(data, 'user_id', output_path)
+    visualize_correlation_matrix(data, output_path)
+    summary_stats = summarize_data(data)
+    print(summary_stats)
