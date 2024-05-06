@@ -1,0 +1,1 @@
+{"CORSRules":[{"AllowedHeaders":["*"],"AllowedMethods":["GET","POST","PUT","DELETE","HEAD"],"AllowedOrigins":["http://localhost:3000","https://velvety-shortbread-716a30.netlify.app"],"ExposeHeaders":["ETag","x-amz-meta-custom-header"],"MaxAgeSeconds":3000}]}
