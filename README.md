@@ -16,6 +16,14 @@ To run this project locally:
 4. Run `npm start` to start the development server.
 5. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
+## Data Analysis and Visualization
+
+The project includes a Python script `data_analysis_template.py` for data analysis and visualization. This script uses Plotly to generate interactive visualizations, which can be embedded into the React application for enhanced data insights. To run the data analysis script:
+
+1. Ensure you have Python and the necessary libraries installed.
+2. Navigate to the `frontend_build` directory.
+3. Run `python data_analysis_template.py` to execute the script and generate visualizations.
+
 ## Contributing
 
 We welcome contributions to the `codekiijiji.ai` project. Please read our contributing guidelines before submitting a pull request.
