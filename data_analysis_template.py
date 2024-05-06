@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 def load_data(file_path):
     """
@@ -31,7 +32,7 @@ def visualize_data_histogram(data, column):
     Create a histogram for a specified column of the data.
     """
     if data is not None and column in data.columns:
-        plt.hist(data[column])
+        sns.histplot(data[column], kde=True)
         plt.title(f'Histogram of {column}')
         plt.xlabel(column)
         plt.ylabel('Frequency')
@@ -44,7 +45,7 @@ def visualize_data_scatter(data, column1, column2):
     Create a scatter plot for two specified columns of the data.
     """
     if data is not None and column1 in data.columns and column2 in data.columns:
-        plt.scatter(data[column1], data[column2])
+        sns.scatterplot(x=data[column1], y=data[column2])
         plt.title(f'Scatter Plot of {column1} vs {column2}')
         plt.xlabel(column1)
         plt.ylabel(column2)
@@ -55,9 +56,9 @@ def visualize_data_scatter(data, column1, column2):
 # Main section to call functions with actual data
 if __name__ == "__main__":
     # Replace 'actual_data.csv' with the path to the actual data file
-    file_path = 'actual_data.csv'
+    file_path = 'synthetic_data.csv'
     data = load_data(file_path)
     data = clean_data(data)
     # Replace 'column_name' with the actual column names
-    visualize_data_histogram(data, 'column_name')
-    visualize_data_scatter(data, 'column1_name', 'column2_name')
+    visualize_data_histogram(data, 'language')
+    visualize_data_scatter(data, 'submitted_at', 'user_id')
