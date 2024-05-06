@@ -1,11 +1,12 @@
 {
-    "CORSRules": [
+    "Version": "2012-10-17",
+    "Statement": [
         {
-            "AllowedOrigins": ["http://localhost:3000"],
-            "AllowedMethods": ["GET", "POST", "PUT", "DELETE", "HEAD"],
-            "AllowedHeaders": ["*"],
-            "MaxAgeSeconds": 3000,
-            "ExposeHeaders": ["ETag", "x-amz-meta-custom-header"]
+            "Sid": "AddPerm",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::codekiijiji-data-collection/*"
         }
     ]
 }
