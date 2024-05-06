@@ -1,7 +1,5 @@
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
+import plotly.express as px
 
 def load_data(file_path):
     """
@@ -29,31 +27,23 @@ def clean_data(data):
 
 def visualize_data_histogram(data, column, output_path):
     """
-    Create a histogram for a specified column of the data and save it as an image.
+    Create an interactive histogram for a specified column of the data and save it as an HTML file.
     """
     if data is not None and column in data.columns:
-        sns.histplot(data[column], kde=True)
-        plt.title(f'Histogram of {column}')
-        plt.xlabel(column)
-        plt.ylabel('Frequency')
-        plt.savefig(f"{output_path}/histogram_{column}.png")
-        plt.close()
-        print(f"Histogram of {column} saved as histogram_{column}.png")
+        fig = px.histogram(data, x=column)
+        fig.write_html(f"{output_path}/histogram_{column}.html")
+        print(f"Interactive Histogram of {column} saved as histogram_{column}.html")
     else:
         print(f"Column {column} not found in data.")
 
 def visualize_data_scatter(data, column1, column2, output_path):
     """
-    Create a scatter plot for two specified columns of the data and save it as an image.
+    Create an interactive scatter plot for two specified columns of the data and save it as an HTML file.
     """
     if data is not None and column1 in data.columns and column2 in data.columns:
-        sns.scatterplot(x=data[column1], y=data[column2])
-        plt.title(f'Scatter Plot of {column1} vs {column2}')
-        plt.xlabel(column1)
-        plt.ylabel(column2)
-        plt.savefig(f"{output_path}/scatter_{column1}_vs_{column2}.png")
-        plt.close()
-        print(f"Scatter Plot of {column1} vs {column2} saved as scatter_{column1}_vs_{column2}.png")
+        fig = px.scatter(data, x=column1, y=column2)
+        fig.write_html(f"{output_path}/scatter_{column1}_vs_{column2}.html")
+        print(f"Interactive Scatter Plot of {column1} vs {column2} saved as scatter_{column1}_vs_{column2}.html")
     else:
         print(f"One or both columns {column1}, {column2} not found in data.")
 
