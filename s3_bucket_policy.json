@@ -1,0 +1,14 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowPutObject",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::094402548679:user/susanngatia@gmail.com"
+            },
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::codekiijiji-data-collection/*"
+        }
+    ]
+}
