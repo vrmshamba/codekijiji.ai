@@ -233,7 +233,7 @@ function App() {
             )}
             <Button
               as="a"
-              href="LINK_TO_GOOGLE_FORM" // Replace with the actual Google Form link
+              href="http://example.com/partnership_form" // Replace with the actual Google Form link
               target="_blank"
               colorScheme="teal"
               size="lg"
