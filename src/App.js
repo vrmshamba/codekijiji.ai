@@ -110,28 +110,60 @@ function App() {
     }
   };
 
-  const stopRecording = () => {
+  const stopRecording = async () => {
     if (mediaRecorder) {
       mediaRecorder.stop();
       setIsRecording(false);
       playSound(stopRecordingSound); // Play stop recording sound
       // Stop all media tracks
       mediaRecorder.stream.getTracks().forEach(track => track.stop());
-      // Add a toast message to inform the user that the recording has stopped
-      toast({
-        title: 'Recording stopped.',
-        description: 'Your recording has been stopped and is ready to be submitted.',
-        status: 'info',
-        duration: 5000,
-        isClosable: true,
-      });
+
+      // Initiate the upload of the recording
+      const recordingFileName = `recording-${Date.now()}.webm`;
+      const recordingFile = new Blob([mediaRecorder], { type: 'audio/webm' });
+      try {
+        await uploadData({
+          path: recordingFileName,
+          data: recordingFile,
+          options: {
+            contentType: 'audio/webm',
+            progressCallback(progress) {
+              const uploadPercentage = Math.round((progress.loaded / progress.total) * 100);
+              // Update the user on the upload progress
+              toast({
+                title: 'Uploading...',
+                description: `Your recording is being uploaded. Progress: ${uploadPercentage}%`,
+                status: 'info',
+                duration: 5000,
+                isClosable: true,
+              });
+            },
+          },
+        });
+        // Inform the user of successful upload
+        toast({
+          title: 'Recording submitted successfully.',
+          description: 'Your voice recording has been uploaded.',
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        });
+      } catch (error) {
+        // Handle errors and inform the user
+        toast({
+          title: 'Submission failed.',
+          description: 'There was an error uploading your recording.',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+      }
     }
   };
 
   const handleSubmit = async () => {
     if (textData) {
       try {
-        // Upload text data as a file
         const textFileName = `textData-${Date.now()}.txt`;
         const textFile = new Blob([textData], { type: 'text/plain' });
         await uploadData({
@@ -155,7 +187,6 @@ function App() {
           isClosable: true,
         });
 
-        // Clear the form
         setTextData('');
         setUploadProgress(0); // Reset upload progress after submission
       } catch (error) {
@@ -200,6 +231,16 @@ function App() {
                 Your submission has been successfully received. Thank you!
               </Text>
             )}
+            <Button
+              as="a"
+              href="LINK_TO_GOOGLE_FORM" // Replace with the actual Google Form link
+              target="_blank"
+              colorScheme="teal"
+              size="lg"
+              mt={4}
+            >
+              Interested in partnering with us? Click here to fill out our partnership inquiry form!
+            </Button>
             <FormControl id="text-data-form">
               <FormLabel>Text Data</FormLabel>
               <Textarea
