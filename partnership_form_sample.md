@@ -33,6 +33,14 @@ Please fill out this form if you are interested in partnering with us. We are lo
 - Type: Paragraph text
 - Description: If you have any specific questions or comments, please let us know here.
 
+### Past Partnership Success Stories
+- Type: Paragraph text
+- Description: Please share any past successful partnerships or projects you have been involved in, specifically in the realm of language technology or educational initiatives.
+
+### Future Project Developments
+- Type: Paragraph text
+- Description: Here you can find information on the proposed future developments of the "codekiijiji.ai" project, including potential enhancements, new features, and growth strategies. We welcome your input and ideas on these future developments.
+
 ## Submission Confirmation:
 "Thank you for your interest in partnering with us! We will review your submission and get back to you as soon as possible."
 
