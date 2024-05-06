@@ -27,29 +27,33 @@ def clean_data(data):
         print("Data cleaned successfully.")
     return data
 
-def visualize_data_histogram(data, column):
+def visualize_data_histogram(data, column, output_path):
     """
-    Create a histogram for a specified column of the data.
+    Create a histogram for a specified column of the data and save it as an image.
     """
     if data is not None and column in data.columns:
         sns.histplot(data[column], kde=True)
         plt.title(f'Histogram of {column}')
         plt.xlabel(column)
         plt.ylabel('Frequency')
-        plt.show()
+        plt.savefig(f"{output_path}/histogram_{column}.png")
+        plt.close()
+        print(f"Histogram of {column} saved as histogram_{column}.png")
     else:
         print(f"Column {column} not found in data.")
 
-def visualize_data_scatter(data, column1, column2):
+def visualize_data_scatter(data, column1, column2, output_path):
     """
-    Create a scatter plot for two specified columns of the data.
+    Create a scatter plot for two specified columns of the data and save it as an image.
     """
     if data is not None and column1 in data.columns and column2 in data.columns:
         sns.scatterplot(x=data[column1], y=data[column2])
         plt.title(f'Scatter Plot of {column1} vs {column2}')
         plt.xlabel(column1)
         plt.ylabel(column2)
-        plt.show()
+        plt.savefig(f"{output_path}/scatter_{column1}_vs_{column2}.png")
+        plt.close()
+        print(f"Scatter Plot of {column1} vs {column2} saved as scatter_{column1}_vs_{column2}.png")
     else:
         print(f"One or both columns {column1}, {column2} not found in data.")
 
@@ -57,8 +61,9 @@ def visualize_data_scatter(data, column1, column2):
 if __name__ == "__main__":
     # Replace 'actual_data.csv' with the path to the actual data file
     file_path = 'synthetic_data.csv'
+    output_path = '.'  # Set the directory where the images will be saved
     data = load_data(file_path)
     data = clean_data(data)
     # Replace 'column_name' with the actual column names
-    visualize_data_histogram(data, 'language')
-    visualize_data_scatter(data, 'submitted_at', 'user_id')
+    visualize_data_histogram(data, 'language', output_path)
+    visualize_data_scatter(data, 'submitted_at', 'user_id', output_path)
