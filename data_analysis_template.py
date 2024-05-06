@@ -52,10 +52,10 @@ def visualize_data_scatter(data, column1, column2):
     else:
         print(f"One or both columns {column1}, {column2} not found in data.")
 
-# Main section to call functions with test data
+# Main section to call functions with actual data
 if __name__ == "__main__":
-    # Replace 'test_data.csv' with the path to the actual data file
-    file_path = 'test_data.csv'
+    # Replace 'actual_data.csv' with the path to the actual data file
+    file_path = 'actual_data.csv'
     data = load_data(file_path)
     data = clean_data(data)
     # Replace 'column_name' with the actual column names
