@@ -6,9 +6,6 @@ import {
   VStack,
   extendTheme,
   Button,
-  FormControl,
-  FormLabel,
-  Textarea,
   useToast,
   useColorMode,
   IconButton,
@@ -20,7 +17,7 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
-  Progress,
+  Textarea,
 } from '@chakra-ui/react';
 import { FaSun, FaMoon } from 'react-icons/fa';
 import { Amplify } from 'aws-amplify';
@@ -29,6 +26,7 @@ import awsExports from './aws-exports';
 import startRecordingSound from './sounds/start-recording.mp3';
 import stopRecordingSound from './sounds/stop-recording.mp3';
 import DataInsights from './DataInsights';
+import PartnershipPackages from './PartnershipPackages';
 
 Amplify.configure(awsExports);
 
@@ -54,12 +52,13 @@ const customTheme = extendTheme({
 
 function App() {
   const [textData, setTextData] = useState('');
+  // The 'isRecording' state is used to track whether the user is currently recording audio
   const [isRecording, setIsRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   // const [audioBlob, setAudioBlob] = useState(null); // Commented out for testing purposes
   const [isPolicyModalOpen, setPolicyModalOpen] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
   const [submissionStatus, setSubmissionStatus] = useState(null);
+  const [currentView, setCurrentView] = useState('dataCollection');
   const toast = useToast();
   const { colorMode, toggleColorMode, setColorMode } = useColorMode();
 
@@ -71,12 +70,14 @@ function App() {
   }, [setColorMode]);
 
   const handleToggleColorMode = () => {
-    toggleColorMode();
-    const newColorMode = colorMode === 'light' ? 'dark' : 'light';
-    localStorage.setItem('colorMode', newColorMode);
+    if (typeof toggleColorMode === 'function') {
+      toggleColorMode();
+      const newColorMode = colorMode === 'light' ? 'dark' : 'light';
+      localStorage.setItem('colorMode', newColorMode);
+    } else {
+      console.error('toggleColorMode is not a function. Please check the Chakra UI implementation.');
+    }
   };
-
-  const handleTextChange = (e) => setTextData(e.target.value);
 
   const playSound = (soundFile) => {
     const audio = new Audio(soundFile);
@@ -180,7 +181,6 @@ function App() {
             contentType: 'text/plain',
             progressCallback(progress) {
               const uploadPercentage = Math.round((progress.loaded / progress.total) * 100);
-              setUploadProgress(uploadPercentage);
             },
           },
         });
@@ -195,7 +195,6 @@ function App() {
         });
 
         setTextData('');
-        setUploadProgress(0); // Reset upload progress after submission
       } catch (error) {
         setSubmissionStatus('error');
         toast({
@@ -219,10 +218,79 @@ function App() {
 
   const togglePolicyModal = () => setPolicyModalOpen(!isPolicyModalOpen);
 
+  // Function to change view
+  const changeView = (view) => {
+    setCurrentView(view);
+  };
+
+  // Conditional rendering based on current view
+  let contentView;
+  switch (currentView) {
+    case 'partnershipPackages':
+      contentView = <PartnershipPackages />;
+      break;
+    default:
+      contentView = (
+        <>
+          <DataInsights />
+          <Button
+            as="a"
+            href="https://forms.gle/g2WKYZsUXtFhBP3v5" // Updated Google Form link
+            target="_blank"
+            colorScheme="teal"
+            size="lg"
+            mt={4}
+          >
+            Interested in partnering with us? Click here to fill out our partnership inquiry form!
+          </Button>
+          <Textarea
+            placeholder="Enter your text data here..."
+            value={textData}
+            onChange={(e) => setTextData(e.target.value)}
+            size="sm"
+            mt={4}
+          />
+          <Button
+            onClick={startRecording}
+            colorScheme="green"
+            size="md"
+            mt={4}
+            isDisabled={isRecording}
+          >
+            Start Recording
+          </Button>
+          <Button
+            onClick={stopRecording}
+            colorScheme="red"
+            size="md"
+            mt={4}
+            isDisabled={!isRecording}
+          >
+            Stop Recording
+          </Button>
+          <Button
+            onClick={handleSubmit}
+            colorScheme="blue"
+            size="md"
+            mt={4}
+          >
+            Submit Text Data
+          </Button>
+          <Button
+            onClick={() => changeView('partnershipPackages')}
+            colorScheme="blue"
+            size="md"
+            mt={4}
+          >
+            View Partnership Packages
+          </Button>
+        </>
+      );
+  }
+
   return (
     <ChakraProvider theme={customTheme}>
       <Box position="relative" textAlign="center" fontSize="xl" minHeight="100vh" py={10}>
-        {/* <Image src="lady_cat_7.jpg" alt="Cultural Hut" opacity="0.8" position="absolute" top="0" left="0" width="full" height="full" objectFit="cover" zIndex="-1" /> */}
         <Box position="absolute" bottom="4" right="4" zIndex="2" width="150px" height="auto">
           <Image src="susan_signature.jpg" alt="Susan Ngatia's Signature" opacity="1" />
         </Box>
@@ -238,52 +306,7 @@ function App() {
                 Your submission has been successfully received. Thank you!
               </Text>
             )}
-            <DataInsights />
-            <Button
-              as="a"
-              href="https://forms.gle/MwXfXSNcdnDtdzZX8" // Correct Google Form link
-              target="_blank"
-              colorScheme="teal"
-              size="lg"
-              mt={4}
-            >
-              Interested in partnering with us? Click here to fill out our partnership inquiry form!
-            </Button>
-            <FormControl id="text-data-form">
-              <FormLabel>Text Data</FormLabel>
-              <Textarea
-                value={textData}
-                onChange={handleTextChange}
-                placeholder="Enter text data here"
-                size="sm"
-              />
-            </FormControl>
-            {isRecording && (
-              <Text color="red.500">Recording in progress...</Text>
-            )}
-            {isRecording ? (
-              <Button onClick={stopRecording} colorScheme="red" size="lg">
-                Stop Recording
-              </Button>
-            ) : (
-              <Button onClick={startRecording} colorScheme="green" size="lg">
-                Start Recording
-              </Button>
-            )}
-            {uploadProgress > 0 && (
-              <Progress value={uploadProgress} size="xs" colorScheme="green" />
-            )}
-            <Button
-              onClick={handleSubmit}
-              className={`button-submit ${textData ? '' : 'button-submit-disabled'}`}
-              size="lg"
-              isDisabled={!textData}
-            >
-              Submit
-            </Button>
-            <Button onClick={togglePolicyModal} colorScheme="blue" size="sm" mt={4}>
-              View Data User Policy and Privacy Policy
-            </Button>
+            {contentView}
             <Modal isOpen={isPolicyModalOpen} onClose={togglePolicyModal}>
               <ModalOverlay />
               <ModalContent>
