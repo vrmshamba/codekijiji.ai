@@ -118,46 +118,52 @@ function App() {
       // Stop all media tracks
       mediaRecorder.stream.getTracks().forEach(track => track.stop());
 
-      // Initiate the upload of the recording
-      const recordingFileName = `recording-${Date.now()}.webm`;
-      const recordingFile = new Blob([mediaRecorder], { type: 'audio/webm' });
-      try {
-        await uploadData({
-          path: recordingFileName,
-          data: recordingFile,
-          options: {
-            contentType: 'audio/webm',
-            progressCallback(progress) {
-              const uploadPercentage = Math.round((progress.loaded / progress.total) * 100);
-              // Update the user on the upload progress
-              toast({
-                title: 'Uploading...',
-                description: `Your recording is being uploaded. Progress: ${uploadPercentage}%`,
-                status: 'info',
-                duration: 5000,
-                isClosable: true,
-              });
+      let chunks = []; // Array to store chunks of audio data
+      mediaRecorder.ondataavailable = function(e) {
+        chunks.push(e.data);
+      };
+
+      mediaRecorder.onstop = async (e) => {
+        const recordingFileName = `recording-${Date.now()}.webm`;
+        const recordingFile = new Blob(chunks, { type: 'audio/webm' });
+        try {
+          await uploadData({
+            path: recordingFileName,
+            data: recordingFile,
+            options: {
+              contentType: 'audio/webm',
+              progressCallback(progress) {
+                const uploadPercentage = Math.round((progress.loaded / progress.total) * 100);
+                // Update the user on the upload progress
+                toast({
+                  title: 'Uploading...',
+                  description: `Your recording is being uploaded. Progress: ${uploadPercentage}%`,
+                  status: 'info',
+                  duration: 5000,
+                  isClosable: true,
+                });
+              },
             },
-          },
-        });
-        // Inform the user of successful upload
-        toast({
-          title: 'Recording submitted successfully.',
-          description: 'Your voice recording has been uploaded.',
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-        });
-      } catch (error) {
-        // Handle errors and inform the user
-        toast({
-          title: 'Submission failed.',
-          description: 'There was an error uploading your recording.',
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-        });
-      }
+          });
+          // Inform the user of successful upload
+          toast({
+            title: 'Recording submitted successfully.',
+            description: 'Your voice recording has been uploaded.',
+            status: 'success',
+            duration: 5000,
+            isClosable: true,
+          });
+        } catch (error) {
+          // Handle errors and inform the user
+          toast({
+            title: 'Submission failed.',
+            description: 'There was an error uploading your recording.',
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+          });
+        }
+      };
     }
   };
 
@@ -233,7 +239,7 @@ function App() {
             )}
             <Button
               as="a"
-              href="http://example.com/partnership_form" // Replace with the actual Google Form link
+              href="https://forms.gle/MwXfXSNcdnDtdzZX8" // Actual Google Form link
               target="_blank"
               colorScheme="teal"
               size="lg"
