@@ -77,11 +77,13 @@ def visualize_correlation_matrix(data, output_path):
     Create an interactive correlation matrix heatmap for the data and save it as an HTML file.
     """
     if data is not None:
+        # Select only numeric columns for correlation matrix
+        numeric_data = data.select_dtypes(include=[np.number])
         fig = ff.create_annotated_heatmap(
-            z=data.corr().values,
-            x=list(data.columns),
-            y=list(data.columns),
-            annotation_text=data.corr().round(2).values,
+            z=numeric_data.corr().values,
+            x=list(numeric_data.columns),
+            y=list(numeric_data.columns),
+            annotation_text=numeric_data.corr().round(2).values,
             showscale=True
         )
         fig.write_html(f"{output_path}/correlation_matrix.html")
