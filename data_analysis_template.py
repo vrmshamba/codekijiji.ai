@@ -55,7 +55,7 @@ def visualize_data_time_series(data, column, output_path):
     Create an interactive time series plot for a specified column of the data and save it as an HTML file.
     """
     if data is not None and column in data.columns:
-        fig = px.line(data, x='date', y=column)
+        fig = px.line(data, x='submitted_at', y=column)
         fig.write_html(f"{output_path}/time_series_{column}.html")
         print(f"Interactive Time Series Plot of {column} saved as time_series_{column}.html")
     else:
