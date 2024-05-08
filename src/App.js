@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   ChakraProvider,
   Box,
@@ -65,6 +65,9 @@ function App() {
   const [currentView, setCurrentView] = useState('dataCollection');
   const toast = useToast();
   const { colorMode, toggleColorMode, setColorMode } = useColorMode();
+  const dataCollectionRef = useRef(null);
+  const dataInsightsRef = useRef(null);
+  const partnershipPackagesRef = useRef(null);
 
   useEffect(() => {
     const savedColorMode = localStorage.getItem('colorMode');
@@ -191,6 +194,16 @@ function App() {
   // Function to change view
   const changeView = (view) => {
     setCurrentView(view);
+    // Assuming each view has a corresponding ref like dataCollectionRef, dataInsightsRef, etc.
+    const viewRef = {
+      dataCollection: dataCollectionRef,
+      dataInsights: dataInsightsRef,
+      partnershipPackages: partnershipPackagesRef,
+    }[view];
+
+    if (viewRef && viewRef.current) {
+      viewRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   // Conditional rendering based on current view
@@ -268,12 +281,12 @@ function App() {
         </Box>
         <Box bg={colorMode === 'light' ? 'white' : 'brand.800'} color={colorMode === 'light' ? 'brand.800' : 'white'}>
           <VStack spacing={8} maxWidth="xl" mx="auto" p={4}>
-            <Flex as="header" width="full" align="center" justify="space-between" p={4} bg="blue.500" color="white">
+            <Flex as="header" width="full" align="center" justify="space-between" p={4} bg="blue.500" color="white" position="sticky" top="0" zIndex="3">
               <Heading as="h1" size="lg">codekiijiji.ai</Heading>
               <Stack as="nav" direction="row" spacing={4}>
-                <Link href="#data-collection" onClick={() => changeView('dataCollection')}>Data Collection</Link>
-                <Link href="#data-insights" onClick={() => changeView('dataInsights')}>Data Insights</Link>
-                <Link href="#partnership-packages" onClick={() => changeView('partnershipPackages')}>Partnership Packages</Link>
+                <Link href="#data-collection" onClick={() => changeView('dataCollection')} style={{ textDecoration: currentView === 'dataCollection' ? 'underline' : 'none' }}>Data Collection</Link>
+                <Link href="#data-insights" onClick={() => changeView('dataInsights')} style={{ textDecoration: currentView === 'dataInsights' ? 'underline' : 'none' }}>Data Insights</Link>
+                <Link href="#partnership-packages" onClick={() => changeView('partnershipPackages')} style={{ textDecoration: currentView === 'partnershipPackages' ? 'underline' : 'none' }}>Partnership Packages</Link>
               </Stack>
             </Flex>
             <IconButton icon={colorMode === 'light' ? <FaMoon /> : <FaSun />} isRound="true" size="lg" alignSelf="flex-end" m={4} onClick={handleToggleColorMode} />
@@ -286,6 +299,15 @@ function App() {
                 Your submission has been successfully received. Thank you!
               </Text>
             )}
+            <div ref={dataCollectionRef} id="data-collection" devin-id="data-collection">
+              {/* Data Collection Section Content */}
+            </div>
+            <div ref={dataInsightsRef} id="data-insights" devin-id="data-insights">
+              {/* Data Insights Section Content */}
+            </div>
+            <div ref={partnershipPackagesRef} id="partnership-packages" devin-id="partnership-packages">
+              {/* Partnership Packages Section Content */}
+            </div>
             {contentView}
             <Modal isOpen={isPolicyModalOpen} onClose={togglePolicyModal}>
               <ModalOverlay />
