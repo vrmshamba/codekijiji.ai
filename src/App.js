@@ -73,6 +73,11 @@ function App() {
     }
   }, [setColorMode]);
 
+  useEffect(() => {
+    console.log("Updated isRecording state:", isRecording);
+    // Additional logic can be placed here if needed, based on the updated state
+  }, [isRecording]);
+
   const handleToggleColorMode = () => {
     if (toggleColorMode) {
       toggleColorMode();
@@ -104,7 +109,11 @@ function App() {
       const recorder = new MediaRecorder(stream);
       setMediaRecorder(recorder);
       recorder.start();
-      setIsRecording(true); // Update the recording state to true
+      setIsRecording(prevIsRecording => {
+        console.log("During starting, previous isRecording:", prevIsRecording); // Log during state change
+        return true;
+      }); // Update the recording state to true using functional update
+      // Removed the immediate console.log after setIsRecording to rely on useEffect for logging
       playSound(startRecordingSound); // Play start recording sound
     } catch (error) {
       toast({
