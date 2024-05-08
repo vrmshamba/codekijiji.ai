@@ -109,8 +109,9 @@ function App() {
       const recorder = new MediaRecorder(stream);
       setMediaRecorder(recorder);
       recorder.start();
-      setIsRecording(true); // Set the recording state to true
-      console.log("After starting, isRecording should be true:", isRecording); // Log after state change
+      setIsRecording(true, () => {
+        console.log("After starting, isRecording is now:", isRecording); // Log after state change with callback
+      });
       playSound(startRecordingSound); // Play start recording sound
     } catch (error) {
       toast({
