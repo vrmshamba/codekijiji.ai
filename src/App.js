@@ -275,6 +275,7 @@ function App() {
             Start Recording
           </Button>
           <Button
+            key={`stop-recording-${isRecording}`}
             onClick={stopRecording}
             colorScheme={isRecording ? "red" : "gray"}
             size="md"
