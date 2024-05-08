@@ -74,9 +74,13 @@ function App() {
   }, [setColorMode]);
 
   const handleToggleColorMode = () => {
-    toggleColorMode();
-    const newColorMode = colorMode === 'light' ? 'dark' : 'light';
-    localStorage.setItem('colorMode', newColorMode);
+    if (toggleColorMode) {
+      toggleColorMode();
+      const newColorMode = colorMode === 'light' ? 'dark' : 'light';
+      localStorage.setItem('colorMode', newColorMode);
+    } else {
+      console.error('toggleColorMode function is not available');
+    }
   };
 
   const playSound = (soundFile) => {
