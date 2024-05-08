@@ -74,8 +74,15 @@ function App() {
   }, [setColorMode]);
 
   useEffect(() => {
-    console.log("Updated isRecording state:", isRecording);
-    // Additional logic can be placed here if needed, based on the updated state
+    if (isRecording) {
+      // Play start recording sound
+      const startAudio = new Audio(startRecordingSound);
+      startAudio.play();
+    } else {
+      // Play stop recording sound
+      const stopAudio = new Audio(stopRecordingSound);
+      stopAudio.play();
+    }
   }, [isRecording]);
 
   const handleToggleColorMode = () => {
@@ -110,10 +117,7 @@ function App() {
       const recorder = new MediaRecorder(stream);
       setMediaRecorder(recorder);
       recorder.start();
-      setIsRecording(true, () => {
-        console.log("After setting isRecording to true, isRecording:", isRecording); // Log after state change
-        playSound(startRecordingSound); // Play start recording sound
-      }); // Set the recording state to true and use a callback to ensure state has updated
+      setIsRecording(true); // Set the recording state to true
     } catch (error) {
       toast({
         title: 'Error accessing your microphone',
