@@ -74,12 +74,12 @@ function App() {
   }, [setColorMode]);
 
   const handleToggleColorMode = () => {
-    if (typeof toggleColorMode === 'function') {
+    if (colorMode && typeof toggleColorMode === 'function') {
       toggleColorMode();
       const newColorMode = colorMode === 'light' ? 'dark' : 'light';
       localStorage.setItem('colorMode', newColorMode);
     } else {
-      console.error('toggleColorMode is not a function. Please check the Chakra UI implementation.');
+      console.error('toggleColorMode is not a function or colorMode is undefined. Please check the Chakra UI implementation.');
     }
   };
 
