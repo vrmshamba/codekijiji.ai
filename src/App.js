@@ -73,6 +73,10 @@ function App() {
     }
   }, [setColorMode]);
 
+  useEffect(() => {
+    console.log(`isRecording state is now: ${isRecording}`);
+  }, [isRecording]);
+
   const handleToggleColorMode = () => {
     if (toggleColorMode) {
       toggleColorMode();
@@ -122,57 +126,59 @@ function App() {
     console.log("Before stopping, isRecording:", isRecording); // Log before state change
     if (mediaRecorder) {
       mediaRecorder.stop();
-      setIsRecording(false); // Set recording state to false
-      console.log("After stopping, isRecording:", isRecording); // Log after state change
-      playSound(stopRecordingSound); // Play stop recording sound
-      // Stop all media tracks
-      mediaRecorder.stream.getTracks().forEach(track => track.stop());
+      setIsRecording(false, () => { // Set recording state to false and use callback to ensure state has updated
+        console.log("After stopping, isRecording:", isRecording); // Log after state change
+        playSound(stopRecordingSound); // Play stop recording sound
+        // Stop all media tracks
+        mediaRecorder.stream.getTracks().forEach(track => track.stop());
 
-      let chunks = []; // Array to store chunks of audio data
-      mediaRecorder.ondataavailable = function(e) {
-        chunks.push(e.data);
-      };
+        let chunks = []; // Array to store chunks of audio data
+        mediaRecorder.ondataavailable = function(e) {
+          chunks.push(e.data);
+        };
 
-      mediaRecorder.onstop = async (e) => {
-        const recordingFileName = `recording-${Date.now()}.webm`;
-        const recordingFile = new Blob(chunks, { type: 'audio/webm' });
-        try {
-          await uploadData({
-            path: recordingFileName,
-            data: recordingFile,
-            options: {
-              contentType: 'audio/webm',
-              progressCallback(progress) {
-                // Update the user on the upload progress
-                toast({
-                  title: 'Uploading...',
-                  description: `Your recording is being uploaded. Progress: ${Math.round((progress.loaded / progress.total) * 100)}%`,
-                  status: 'info',
-                  duration: 5000,
-                  isClosable: true,
-                });
+        mediaRecorder.onstop = async (e) => {
+          // All code that depends on the updated state should be inside this callback
+          const recordingFileName = `recording-${Date.now()}.webm`;
+          const recordingFile = new Blob(chunks, { type: 'audio/webm' });
+          try {
+            await uploadData({
+              path: recordingFileName,
+              data: recordingFile,
+              options: {
+                contentType: 'audio/webm',
+                progressCallback(progress) {
+                  // Update the user on the upload progress
+                  toast({
+                    title: 'Uploading...',
+                    description: `Your recording is being uploaded. Progress: ${Math.round((progress.loaded / progress.total) * 100)}%`,
+                    status: 'info',
+                    duration: 5000,
+                    isClosable: true,
+                  });
+                },
               },
-            },
-          });
-          // Inform the user of successful upload
-          toast({
-            title: 'Recording submitted successfully.',
-            description: 'Your voice recording has been uploaded.',
-            status: 'success',
-            duration: 5000,
-            isClosable: true,
-          });
-        } catch (error) {
-          // Handle errors and inform the user
-          toast({
-            title: 'Submission failed.',
-            description: 'There was an error uploading your recording.',
-            status: 'error',
-            duration: 5000,
-            isClosable: true,
-          });
-        }
-      };
+            });
+            // Inform the user of successful upload
+            toast({
+              title: 'Recording submitted successfully.',
+              description: 'Your voice recording has been uploaded.',
+              status: 'success',
+              duration: 5000,
+              isClosable: true,
+            });
+          } catch (error) {
+            // Handle errors and inform the user
+            toast({
+              title: 'Submission failed.',
+              description: 'There was an error uploading your recording.',
+              status: 'error',
+              duration: 5000,
+              isClosable: true,
+            });
+          }
+        };
+      });
     }
   };
 
