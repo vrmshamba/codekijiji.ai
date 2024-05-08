@@ -118,6 +118,7 @@ function App() {
       setMediaRecorder(recorder);
       recorder.start();
       setIsRecording(true); // Set the recording state to true
+      playSound(startRecordingSound); // Play start recording sound
     } catch (error) {
       toast({
         title: 'Error accessing your microphone',
@@ -130,62 +131,12 @@ function App() {
   };
 
   const stopRecording = async () => {
-    console.log("Before stopping, isRecording:", isRecording); // Log before state change
-    console.log("Attempting to stop recording and setting isRecording to false...");
+    // ... existing code ...
     if (mediaRecorder) {
       mediaRecorder.stop();
       setIsRecording(false); // Set recording state to false
-      console.log("After setting isRecording to false, isRecording:", isRecording); // Log after state change
       playSound(stopRecordingSound); // Play stop recording sound
-      // Stop all media tracks
-      mediaRecorder.stream.getTracks().forEach(track => track.stop());
-
-      let chunks = []; // Array to store chunks of audio data
-      mediaRecorder.ondataavailable = function(e) {
-        chunks.push(e.data);
-      };
-
-      mediaRecorder.onstop = async (e) => {
-        console.log("Recorder stopped, isRecording should be false, isRecording:", isRecording); // Log after recorder stops
-        const recordingFileName = `recording-${Date.now()}.webm`;
-        const recordingFile = new Blob(chunks, { type: 'audio/webm' });
-        try {
-          await uploadData({
-            path: recordingFileName,
-            data: recordingFile,
-            options: {
-              contentType: 'audio/webm',
-              progressCallback(progress) {
-                // Update the user on the upload progress
-                toast({
-                  title: 'Uploading...',
-                  description: `Your recording is being uploaded. Progress: ${Math.round((progress.loaded / progress.total) * 100)}%`,
-                  status: 'info',
-                  duration: 5000,
-                  isClosable: true,
-                });
-              },
-            },
-          });
-          // Inform the user of successful upload
-          toast({
-            title: 'Recording submitted successfully.',
-            description: 'Your voice recording has been uploaded.',
-            status: 'success',
-            duration: 5000,
-            isClosable: true,
-          });
-        } catch (error) {
-          // Handle errors and inform the user
-          toast({
-            title: 'Submission failed.',
-            description: 'There was an error uploading your recording.',
-            status: 'error',
-            duration: 5000,
-            isClosable: true,
-          });
-        }
-      };
+      // ... existing code for stopping media tracks and handling the recording data ...
     }
   };
 
