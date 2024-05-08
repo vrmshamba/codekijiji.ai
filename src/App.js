@@ -110,9 +110,10 @@ function App() {
       const recorder = new MediaRecorder(stream);
       setMediaRecorder(recorder);
       recorder.start();
-      setIsRecording(true); // Set the recording state to true
-      console.log("After setting isRecording to true, isRecording:", isRecording); // Log after state change
-      playSound(startRecordingSound); // Play start recording sound
+      setIsRecording(true, () => {
+        console.log("After setting isRecording to true, isRecording:", isRecording); // Log after state change
+        playSound(startRecordingSound); // Play start recording sound
+      }); // Set the recording state to true and use a callback to ensure state has updated
     } catch (error) {
       toast({
         title: 'Error accessing your microphone',
