@@ -126,9 +126,7 @@ function App() {
     if (mediaRecorder) {
       mediaRecorder.stop();
       console.log("Before stopping, isRecording should be true, checking actual state:", isRecording); // Log before state change
-      setIsRecording(false, () => {
-        console.log("After stopping, isRecording is now:", isRecording); // Log after state change
-      });
+      setIsRecording(false);
       playSound(stopRecordingSound); // Play stop recording sound
       // ... existing code for stopping media tracks and handling the recording data ...
     }
