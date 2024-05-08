@@ -3,6 +3,7 @@ import plotly.express as px
 import plotly.figure_factory as ff
 import scipy.stats as stats
 import statsmodels.api as sm
+import numpy as np
 
 def load_data(file_path):
     """
