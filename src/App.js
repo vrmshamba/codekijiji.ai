@@ -73,10 +73,6 @@ function App() {
     }
   }, [setColorMode]);
 
-  useEffect(() => {
-    console.log(`isRecording state is now: ${isRecording}`);
-  }, [isRecording]);
-
   const handleToggleColorMode = () => {
     if (toggleColorMode) {
       toggleColorMode();
@@ -279,12 +275,12 @@ function App() {
             Start Recording
           </Button>
           <Button
-            key={`stop-recording-${isRecording}`}
             onClick={stopRecording}
             colorScheme={isRecording ? "red" : "gray"}
             size="md"
             mt={4}
             isDisabled={!isRecording}
+            aria-label="Stop Recording"
           >
             Stop Recording
           </Button>
