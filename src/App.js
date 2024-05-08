@@ -115,7 +115,7 @@ function App() {
   const stopRecording = async () => {
     if (mediaRecorder) {
       mediaRecorder.stop();
-      setIsRecording(false);
+      setIsRecording(false); // Set recording state to false
       playSound(stopRecordingSound); // Play stop recording sound
       // Stop all media tracks
       mediaRecorder.stream.getTracks().forEach(track => track.stop());
@@ -135,11 +135,10 @@ function App() {
             options: {
               contentType: 'audio/webm',
               progressCallback(progress) {
-                const uploadPercentage = Math.round((progress.loaded / progress.total) * 100);
                 // Update the user on the upload progress
                 toast({
                   title: 'Uploading...',
-                  description: `Your recording is being uploaded. Progress: ${uploadPercentage}%`,
+                  description: `Your recording is being uploaded. Progress: ${Math.round((progress.loaded / progress.total) * 100)}%`,
                   status: 'info',
                   duration: 5000,
                   isClosable: true,
@@ -180,7 +179,14 @@ function App() {
           options: {
             contentType: 'text/plain',
             progressCallback(progress) {
-              const uploadPercentage = Math.round((progress.loaded / progress.total) * 100);
+              // Display a toast on successful submission for user feedback
+              toast({
+                title: 'Uploading...',
+                description: `Your text data is being uploaded. Progress: ${Math.round((progress.loaded / progress.total) * 100)}%`,
+                status: 'info',
+                duration: 5000,
+                isClosable: true,
+              });
             },
           },
         });
