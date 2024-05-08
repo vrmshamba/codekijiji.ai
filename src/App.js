@@ -74,13 +74,9 @@ function App() {
   }, [setColorMode]);
 
   const handleToggleColorMode = () => {
-    if (colorMode && typeof toggleColorMode === 'function') {
-      toggleColorMode();
-      const newColorMode = colorMode === 'light' ? 'dark' : 'light';
-      localStorage.setItem('colorMode', newColorMode);
-    } else {
-      console.error('toggleColorMode is not a function or colorMode is undefined. Please check the Chakra UI implementation.');
-    }
+    toggleColorMode();
+    const newColorMode = colorMode === 'light' ? 'dark' : 'light';
+    localStorage.setItem('colorMode', newColorMode);
   };
 
   const playSound = (soundFile) => {
