@@ -85,6 +85,7 @@ function App() {
   };
 
   const startRecording = async () => {
+    console.log("Before starting, isRecording:", isRecording); // Log before state change
     // Inform the user about the microphone permission prompt
     toast({
       title: 'Microphone Access',
@@ -100,6 +101,7 @@ function App() {
       setMediaRecorder(recorder);
       recorder.start();
       setIsRecording(true);
+      console.log("After starting, isRecording:", isRecording); // Log after state change
       playSound(startRecordingSound); // Play start recording sound
     } catch (error) {
       toast({
@@ -113,9 +115,11 @@ function App() {
   };
 
   const stopRecording = async () => {
+    console.log("Before stopping, isRecording:", isRecording); // Log before state change
     if (mediaRecorder) {
       mediaRecorder.stop();
       setIsRecording(false); // Set recording state to false
+      console.log("After stopping, isRecording:", isRecording); // Log after state change
       playSound(stopRecordingSound); // Play stop recording sound
       // Stop all media tracks
       mediaRecorder.stream.getTracks().forEach(track => track.stop());
