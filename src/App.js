@@ -18,8 +18,12 @@ import {
   ModalBody,
   ModalFooter,
   Textarea,
+  Flex,
+  Heading,
+  Stack,
+  Link,
 } from '@chakra-ui/react';
-import { FaSun, FaMoon } from 'react-icons/fa';
+import { FaSun, FaMoon, FaHandshake } from 'react-icons/fa';
 import { Amplify } from 'aws-amplify';
 import { uploadData } from 'aws-amplify/storage';
 import awsExports from './aws-exports';
@@ -244,10 +248,11 @@ function App() {
             href="https://forms.gle/g2WKYZsUXtFhBP3v5" // Updated Google Form link
             target="_blank"
             colorScheme="teal"
+            leftIcon={<FaHandshake />}
             size="lg"
             mt={4}
           >
-            Interested in partnering with us? Click here to fill out our partnership inquiry form!
+            Partner with Us
           </Button>
           <Textarea
             placeholder="Enter your text data here..."
@@ -258,7 +263,7 @@ function App() {
           />
           <Button
             onClick={startRecording}
-            colorScheme="green"
+            colorScheme={isRecording ? "gray" : "green"}
             size="md"
             mt={4}
             isDisabled={isRecording}
@@ -267,7 +272,7 @@ function App() {
           </Button>
           <Button
             onClick={stopRecording}
-            colorScheme="red"
+            colorScheme={isRecording ? "red" : "gray"}
             size="md"
             mt={4}
             isDisabled={!isRecording}
@@ -302,6 +307,14 @@ function App() {
         </Box>
         <Box bg={colorMode === 'light' ? 'white' : 'brand.800'} color={colorMode === 'light' ? 'brand.800' : 'white'}>
           <VStack spacing={8} maxWidth="xl" mx="auto" p={4}>
+            <Flex as="header" width="full" align="center" justify="space-between" p={4} bg="blue.500" color="white">
+              <Heading as="h1" size="lg">codekiijiji.ai</Heading>
+              <Stack as="nav" direction="row" spacing={4}>
+                <Link href="#data-collection" onClick={() => changeView('dataCollection')}>Data Collection</Link>
+                <Link href="#data-insights" onClick={() => changeView('dataInsights')}>Data Insights</Link>
+                <Link href="#partnership-packages" onClick={() => changeView('partnershipPackages')}>Partnership Packages</Link>
+              </Stack>
+            </Flex>
             <IconButton icon={colorMode === 'light' ? <FaMoon /> : <FaSun />} isRound="true" size="lg" alignSelf="flex-end" m={4} onClick={handleToggleColorMode} />
             <Text fontSize="3xl" fontWeight="bold">Welcome to the Kikuyu Language Data Collection Interface</Text>
             <Text fontSize="md">
