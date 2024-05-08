@@ -95,6 +95,7 @@ function App() {
 
   const startRecording = async () => {
     console.log("Before starting, isRecording:", isRecording); // Log before state change
+    console.log("Attempting to start recording and setting isRecording to true...");
     // Inform the user about the microphone permission prompt
     toast({
       title: 'Microphone Access',
@@ -109,11 +110,8 @@ function App() {
       const recorder = new MediaRecorder(stream);
       setMediaRecorder(recorder);
       recorder.start();
-      setIsRecording(prevIsRecording => {
-        console.log("During starting, previous isRecording:", prevIsRecording); // Log during state change
-        return true;
-      }); // Update the recording state to true using functional update
-      // Removed the immediate console.log after setIsRecording to rely on useEffect for logging
+      setIsRecording(true); // Set the recording state to true
+      console.log("After setting isRecording to true, isRecording:", isRecording); // Log after state change
       playSound(startRecordingSound); // Play start recording sound
     } catch (error) {
       toast({
@@ -128,10 +126,11 @@ function App() {
 
   const stopRecording = async () => {
     console.log("Before stopping, isRecording:", isRecording); // Log before state change
+    console.log("Attempting to stop recording and setting isRecording to false...");
     if (mediaRecorder) {
       mediaRecorder.stop();
       setIsRecording(false); // Set recording state to false
-      console.log("After stopping, isRecording:", isRecording); // Log after state change
+      console.log("After setting isRecording to false, isRecording:", isRecording); // Log after state change
       playSound(stopRecordingSound); // Play stop recording sound
       // Stop all media tracks
       mediaRecorder.stream.getTracks().forEach(track => track.stop());
@@ -142,7 +141,7 @@ function App() {
       };
 
       mediaRecorder.onstop = async (e) => {
-        // All code that depends on the updated state should be inside this callback
+        console.log("Recorder stopped, isRecording should be false, isRecording:", isRecording); // Log after recorder stops
         const recordingFileName = `recording-${Date.now()}.webm`;
         const recordingFile = new Blob(chunks, { type: 'audio/webm' });
         try {
