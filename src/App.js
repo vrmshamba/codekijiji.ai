@@ -73,18 +73,6 @@ function App() {
     }
   }, [setColorMode]);
 
-  useEffect(() => {
-    if (isRecording) {
-      // Play start recording sound
-      const startAudio = new Audio(startRecordingSound);
-      startAudio.play();
-    } else {
-      // Play stop recording sound
-      const stopAudio = new Audio(stopRecordingSound);
-      stopAudio.play();
-    }
-  }, [isRecording]);
-
   const handleToggleColorMode = () => {
     if (toggleColorMode) {
       toggleColorMode();
