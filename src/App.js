@@ -109,8 +109,9 @@ function App() {
       const recorder = new MediaRecorder(stream);
       setMediaRecorder(recorder);
       recorder.start();
-      setIsRecording(true);
-      console.log("After starting, isRecording should be true, checking actual state:", isRecording); // Log after state change
+      setIsRecording(true, () => {
+        console.log("After starting, isRecording is now:", isRecording); // Log after state change
+      });
       playSound(startRecordingSound); // Play start recording sound
     } catch (error) {
       toast({
@@ -127,8 +128,9 @@ function App() {
     if (mediaRecorder) {
       mediaRecorder.stop();
       console.log("Before stopping, isRecording should be true, checking actual state:", isRecording); // Log before state change
-      setIsRecording(false); // Set recording state to false
-      console.log("After stopping, isRecording should be false, checking actual state:", isRecording); // Log after state change
+      setIsRecording(false, () => {
+        console.log("After stopping, isRecording is now:", isRecording); // Log after state change
+      });
       playSound(stopRecordingSound); // Play stop recording sound
       // ... existing code for stopping media tracks and handling the recording data ...
     }
