@@ -110,7 +110,7 @@ function App() {
       setMediaRecorder(recorder);
       recorder.start();
       setIsRecording(true);
-      console.log("isRecording state set to true, startRecording function called");
+      console.log("After starting, isRecording should be true, checking actual state:", isRecording); // Log after state change
       playSound(startRecordingSound); // Play start recording sound
     } catch (error) {
       toast({
@@ -126,8 +126,9 @@ function App() {
   const stopRecording = async () => {
     if (mediaRecorder) {
       mediaRecorder.stop();
+      console.log("Before stopping, isRecording should be true, checking actual state:", isRecording); // Log before state change
       setIsRecording(false); // Set recording state to false
-      console.log("isRecording state set to false, stopRecording function called");
+      console.log("After stopping, isRecording should be false, checking actual state:", isRecording); // Log after state change
       playSound(stopRecordingSound); // Play stop recording sound
       // ... existing code for stopping media tracks and handling the recording data ...
     }
