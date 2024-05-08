@@ -73,6 +73,10 @@ function App() {
     }
   }, [setColorMode]);
 
+  useEffect(() => {
+    console.log("isRecording state updated to:", isRecording);
+  }, [isRecording]);
+
   const handleToggleColorMode = () => {
     if (toggleColorMode) {
       toggleColorMode();
@@ -106,6 +110,7 @@ function App() {
       setMediaRecorder(recorder);
       recorder.start();
       setIsRecording(true); // Set the recording state to true
+      console.log("After starting, isRecording should be true:", isRecording); // Log after state change
       playSound(startRecordingSound); // Play start recording sound
     } catch (error) {
       toast({
@@ -119,10 +124,10 @@ function App() {
   };
 
   const stopRecording = async () => {
-    // ... existing code ...
     if (mediaRecorder) {
       mediaRecorder.stop();
       setIsRecording(false); // Set recording state to false
+      console.log("After stopping, isRecording should be false:", isRecording); // New log to add
       playSound(stopRecordingSound); // Play stop recording sound
       // ... existing code for stopping media tracks and handling the recording data ...
     }
