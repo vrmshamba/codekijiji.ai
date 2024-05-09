@@ -1,0 +1,82 @@
+{
+  "phonology": {
+    "consonants": {
+      "stops_and_affricate": {
+        "description": "Stops are consonants in which the vocal tract is blocked so that all airflow ceases. An affricate is a consonant that begins as a stop and releases as a fricative.",
+        "examples": ["p", "b", "t", "d", "k", "g", "ch"]
+      },
+      "nasals": {
+        "description": "Nasals are consonants produced with a lowered velum in the mouth, allowing air to escape freely through the nose.",
+        "examples": ["m", "n", "ng"]
+      },
+      "tap": {
+        "description": "A tap is a type of consonantal sound, made by a single muscle contraction.",
+        "examples": ["r"]
+      },
+      "fricatives": {
+        "description": "Fricatives are consonants produced by forcing air through a narrow channel made by placing two articulators close together.",
+        "examples": ["f", "v", "th", "s", "z", "sh", "zh"]
+      },
+      "approximants": {
+        "description": "Approximants are speech sounds that involve the articulators approaching each other but not narrowly enough nor with enough articulatory precision to create turbulent airflow.",
+        "examples": ["l", "w", "y"]
+      }
+    },
+    "vowels": {
+      "front_vowels": {
+        "description": "Front vowels are articulated with the highest point of the tongue positioned towards the front of the mouth.",
+        "examples": ["i", "e"]
+      },
+      "back_vowels": {
+        "description": "Back vowels are articulated with the highest point of the tongue positioned towards the back of the mouth.",
+        "examples": ["u", "o"]
+      },
+      "low_central_vowel": {
+        "description": "A low central vowel is articulated with the tongue positioned as low and as central as possible in the mouth without creating a constriction that would be classified as a consonant.",
+        "examples": ["a"]
+      },
+      "diphthongs": {
+        "description": "Diphthongs are complex vowels composed of two adjacent vowel sounds within the same syllable.",
+        "examples": ["ai", "oi", "au"]
+      },
+      "triphthongs": {
+        "description": "Triphthongs are complex vowels composed of three adjacent vowel sounds within the same syllable.",
+        "examples": ["iai", "uai"]
+      },
+      "vowel_length": {
+        "description": "Vowel length refers to the duration of the vowel sound.",
+        "examples": ["Short vowels: 'a', Long vowels: 'aa'"]
+      }
+    },
+    "syllable_structure": {
+      "description": "The syllable structure of a language determines how sounds can be combined to form syllables in that language.",
+      "examples": ["CV (Consonant-Vowel), CVC (Consonant-Vowel-Consonant), CCV (Consonant-Consonant-Vowel)"]
+    },
+    "tone": {
+      "description": "Tone involves the use of pitch to distinguish meaning of words in a language.",
+      "examples": ["High tone, Low tone, Falling tone, Rising tone"]
+    },
+    "morphophonology": {
+      "dahls_law": {
+        "description": "Dahl’s Law describes a phonological process where a velar stop becomes a fricative when followed by another velar stop.",
+        "examples": ["kk -> kg"]
+      },
+      "combining_vowels_across_morpheme_boundaries": {
+        "description": "This rule describes how vowels from different morphemes combine when they are adjacent to each other.",
+        "examples": ["a-o -> ao"]
+      },
+      "syllable_initial_approximant_formation": {
+        "description": "This rule describes the formation of an approximant at the beginning of a syllable.",
+        "examples": ["l, r"]
+      },
+      "avoiding_sequences_of_three_vowels": {
+        "description": "This rule describes the avoidance of having three vowels in sequence within a word.",
+        "examples": ["iai -> iai"]
+      },
+      "blocking_lengthening": {
+        "description": "This rule describes the prevention of vowel lengthening in certain phonological environments.",
+        "examples": ["a -> a, not aa"]
+      }
+    }
+  }
+}
