@@ -32,6 +32,7 @@ import stopRecordingSound from './sounds/stop-recording.mp3';
 import DataInsights from './DataInsights';
 import PartnershipPackages from './PartnershipPackages';
 import * as tf from '@tensorflow/tfjs';
+import axios from 'axios';
 
 Amplify.configure(awsExports);
 
@@ -209,89 +210,157 @@ function App() {
     }
   };
 
-  const togglePolicyModal = () => setPolicyModalOpen(!isPolicyModalOpen);
+  const handleStripePayment = async () => {
+    try {
+        const response = await axios.post('/create-payment-intent', {
+            amount: 5000, // Amount in cents (e.g., $50.00)
+            currency: 'usd',
+        });
+        const { paymentIntentId } = response.data;
+        toast({
+            title: 'Payment Successful',
+            description: `Stripe Payment Intent ID: ${paymentIntentId}`,
+            status: 'success',
+            duration: 5000,
+            isClosable: true,
+        });
+    } catch (error) {
+        console.error('Error creating Stripe payment intent:', error);
+        toast({
+            title: 'Payment Failed',
+            description: 'There was an error processing your payment with Stripe.',
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+        });
+    }
+};
 
-  // Function to change view
-  const changeView = (view) => {
+const handlePayPalPayment = async () => {
+    try {
+        const response = await axios.post('/create-paypal-transaction', {
+            amount: '50.00', // Amount in USD
+            currency: 'USD',
+        });
+        const { orderId } = response.data;
+        toast({
+            title: 'Payment Successful',
+            description: `PayPal Order ID: ${orderId}`,
+            status: 'success',
+            duration: 5000,
+            isClosable: true,
+        });
+    } catch (error) {
+        console.error('Error creating PayPal transaction:', error);
+        toast({
+            title: 'Payment Failed',
+            description: 'There was an error processing your payment with PayPal.',
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+        });
+    }
+};
+
+// Function to change view
+const changeView = (view) => {
     setCurrentView(view);
     // Assuming each view has a corresponding ref like dataCollectionRef, dataInsightsRef, etc.
     const viewRef = {
-      dataCollection: dataCollectionRef,
-      dataInsights: dataInsightsRef,
-      partnershipPackages: partnershipPackagesRef,
+        dataCollection: dataCollectionRef,
+        dataInsights: dataInsightsRef,
+        partnershipPackages: partnershipPackagesRef,
     }[view];
 
     if (viewRef && viewRef.current) {
-      viewRef.current.scrollIntoView({ behavior: 'smooth' });
+        viewRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  };
+};
 
-  // Conditional rendering based on current view
-  let contentView;
-  switch (currentView) {
+// Conditional rendering based on current view
+let contentView;
+switch (currentView) {
     case 'partnershipPackages':
-      contentView = <PartnershipPackages />;
-      break;
+        contentView = <PartnershipPackages />;
+        break;
     default:
-      contentView = (
-        <>
-          <DataInsights />
-          <Button
-            as="a"
-            href="https://forms.gle/g2WKYZsUXtFhBP3v5" // Updated Google Form link
-            target="_blank"
-            colorScheme="teal"
-            leftIcon={<FaHandshake />}
-            size="lg"
-            mt={4}
-          >
-            Partner with Us
-          </Button>
-          <Textarea
-            placeholder="Enter your text data here..."
-            value={textData}
-            onChange={(e) => setTextData(e.target.value)}
-            size="sm"
-            mt={4}
-          />
-          <Button
-            onClick={startRecording}
-            colorScheme={isRecording ? "gray" : "green"}
-            size="md"
-            mt={4}
-            isDisabled={isRecording}
-          >
-            Start Recording
-          </Button>
-          <Button
-            onClick={stopRecording}
-            colorScheme={isRecording ? "red" : "gray"}
-            size="md"
-            mt={4}
-            isDisabled={!isRecording}
-            aria-label="Stop Recording"
-          >
-            Stop Recording
-          </Button>
-          <Button
-            onClick={handleSubmit}
-            colorScheme="blue"
-            size="md"
-            mt={4}
-          >
-            Submit Text Data
-          </Button>
-          <Button
-            onClick={() => changeView('partnershipPackages')}
-            colorScheme="blue"
-            size="md"
-            mt={4}
-          >
-            View Partnership Packages
-          </Button>
-        </>
-      );
-  }
+        contentView = (
+            <>
+                <DataInsights />
+                <Button
+                    as="a"
+                    href="https://forms.gle/g2WKYZsUXtFhBP3v5" // Updated Google Form link
+                    target="_blank"
+                    colorScheme="teal"
+                    leftIcon={<FaHandshake />}
+                    size="lg"
+                    mt={4}
+                >
+                    Partner with Us
+                </Button>
+                <Textarea
+                    placeholder="Enter your text data here..."
+                    value={textData}
+                    onChange={(e) => setTextData(e.target.value)}
+                    size="sm"
+                    mt={4}
+                />
+                <Button
+                    onClick={startRecording}
+                    colorScheme={isRecording ? "gray" : "green"}
+                    size="md"
+                    mt={4}
+                    isDisabled={isRecording}
+                >
+                    Start Recording
+                </Button>
+                <Button
+                    onClick={stopRecording}
+                    colorScheme={isRecording ? "red" : "gray"}
+                    size="md"
+                    mt={4}
+                    isDisabled={!isRecording}
+                    aria-label="Stop Recording"
+                >
+                    Stop Recording
+                </Button>
+                <Button
+                    onClick={handleSubmit}
+                    colorScheme="blue"
+                    size="md"
+                    mt={4}
+                >
+                    Submit Text Data
+                </Button>
+                <Button
+                    onClick={handleStripePayment}
+                    colorScheme="blue"
+                    size="md"
+                    mt={4}
+                >
+                    Pay with Stripe
+                </Button>
+                <Button
+                    onClick={handlePayPalPayment}
+                    colorScheme="blue"
+                    size="md"
+                    mt={4}
+                >
+                    Pay with PayPal
+                </Button>
+                <Button
+                    onClick={() => changeView('partnershipPackages')}
+                    colorScheme="blue"
+                    size="md"
+                    mt={4}
+                >
+                    View Partnership Packages
+                </Button>
+            </>
+        );
+}
+
+  const togglePolicyModal = () => setPolicyModalOpen(!isPolicyModalOpen);
 
   return (
     <ChakraProvider theme={customTheme}>
