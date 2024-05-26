@@ -1,2 +1,1 @@
 # Track the large TTS model file with Git LFS
-TTS/tts/models/xtts_model.pth filter=lfs diff=lfs merge=lfs -text
