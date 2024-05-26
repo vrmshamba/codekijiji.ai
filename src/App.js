@@ -31,6 +31,8 @@ import startRecordingSound from './sounds/start-recording.mp3';
 import stopRecordingSound from './sounds/stop-recording.mp3';
 import DataInsights from './DataInsights';
 import PartnershipPackages from './PartnershipPackages';
+import * as tf from '@tensorflow/tfjs';
+import whisper from 'whisper-node';
 
 Amplify.configure(awsExports);
 
@@ -131,7 +133,29 @@ function App() {
       console.log("Before stopping, isRecording should be true, checking actual state:", isRecording); // Log before state change
       setIsRecording(false);
       playSound(stopRecordingSound); // Play stop recording sound
-      // ... existing code for stopping media tracks and handling the recording data ...
+
+      // Handle the recorded audio data
+      mediaRecorder.ondataavailable = async (event) => {
+        const audioBlob = event.data;
+        const arrayBuffer = await audioBlob.arrayBuffer();
+        const audioTensor = tf.tensor(new Float32Array(arrayBuffer));
+
+        try {
+          // Load the pre-trained TensorFlow.js model
+          const model = await tf.loadLayersModel('/models/kikuyu_model/model.json');
+
+          // Perform model inference
+          const modelOutput = model.predict(audioTensor);
+
+          // Generate Kikuyu voice-over using whisper-node TTS library
+          const voiceOver = await whisper.generateVoiceOver(modelOutput);
+
+          // Handle the generated voice-over (e.g., play it, upload it, etc.)
+          console.log("Generated voice-over:", voiceOver);
+        } catch (error) {
+          console.error("Error during model inference or TTS generation:", error);
+        }
+      };
     }
   };
 
