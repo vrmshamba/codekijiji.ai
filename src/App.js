@@ -32,7 +32,6 @@ import stopRecordingSound from './sounds/stop-recording.mp3';
 import DataInsights from './DataInsights';
 import PartnershipPackages from './PartnershipPackages';
 import * as tf from '@tensorflow/tfjs';
-import axios from 'axios';
 
 Amplify.configure(awsExports);
 
@@ -215,6 +214,7 @@ function App() {
 
   const handleStripePayment = async () => {
     try {
+        const axios = await import('axios');
         const response = await axios.post('/create-payment-intent', {
             amount: 5000, // Amount in cents (e.g., $50.00)
             currency: 'usd',
@@ -241,6 +241,7 @@ function App() {
 
 const handlePayPalPayment = async () => {
     try {
+        const axios = await import('axios');
         const response = await axios.post('/create-paypal-transaction', {
             amount: '50.00', // Amount in USD
             currency: 'USD',
