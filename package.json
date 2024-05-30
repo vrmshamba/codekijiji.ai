@@ -55,6 +55,7 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/plugin-transform-private-property-in-object": "^7.24.5",
     "gh-pages": "^6.1.1",
+    "queue-microtask": "^1.2.3",
     "react-app-rewired": "^2.2.1"
   }
 }
