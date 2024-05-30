@@ -61,7 +61,10 @@
     },
     "transformIgnorePatterns": [
       "/node_modules/(?!axios)"
-    ]
+    ],
+    "moduleNameMapper": {
+      "^axios$": "identity-obj-proxy"
+    }
   },
   "config-overrides-path": "config-overrides.cjs",
   "devDependencies": {
