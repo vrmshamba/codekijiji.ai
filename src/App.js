@@ -127,36 +127,36 @@ function App() {
   };
 
   const stopRecording = async () => {
-      if (mediaRecorder) {
-          mediaRecorder.stop();
-          console.log("Before stopping, isRecording should be true, checking actual state:", isRecording); // Log before state change
-          setIsRecording(false);
-          playSound(stopRecordingSound); // Play stop recording sound
+    if (mediaRecorder) {
+        mediaRecorder.stop();
+        console.log("Before stopping, isRecording should be true, checking actual state:", isRecording); // Log before state change
+        setIsRecording(false);
+        playSound(stopRecordingSound); // Play stop recording sound
 
-          // Handle the recorded audio data
-          mediaRecorder.ondataavailable = async (event) => {
-              const audioBlob = event.data;
-              const arrayBuffer = await audioBlob.arrayBuffer();
-              const audioTensor = tf.tensor(new Float32Array(arrayBuffer));
+        // Handle the recorded audio data
+        mediaRecorder.ondataavailable = async (event) => {
+            const audioBlob = event.data;
+            const arrayBuffer = await audioBlob.arrayBuffer();
+            const audioTensor = tf.tensor(new Float32Array(arrayBuffer));
 
-              try {
-                  // Load the pre-trained TensorFlow.js model
-                  const model = await tf.loadLayersModel('TTS/tts/models/xtts_model.pth');
+            try {
+                // Load the pre-trained TensorFlow.js model
+                const model = await tf.loadLayersModel('TTS/tts/models/xtts_model.json');
 
-                  // Perform model inference
-                  const modelOutput = model.predict(audioTensor);
+                // Perform model inference
+                const modelOutput = model.predict(audioTensor);
 
-                  // Placeholder: Convert the model's output into audible voice-over
-                  // This may involve additional processing steps or the use of another library or API
-                  console.log("Model output:", modelOutput);
-                  // TODO: Implement the logic to generate voice-over from modelOutput
+                // Placeholder: Convert the model's output into audible voice-over
+                // This may involve additional processing steps or the use of another library or API
+                console.log("Model output:", modelOutput);
+                // TODO: Implement the logic to generate voice-over from modelOutput
 
-              } catch (error) {
-                  console.error("Error during model inference:", error);
-              }
-          };
-      }
-  };
+            } catch (error) {
+                console.error("Error during model inference:", error);
+            }
+        };
+    }
+};
 
   const handleSubmit = async () => {
     if (textData) {
