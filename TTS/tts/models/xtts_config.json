@@ -144,7 +144,8 @@
         "hu",
         "ko",
         "ja",
-        "hi"
+        "hi",
+        "ki"
     ],
     "temperature": 0.75,
     "length_penalty": 1.0,
