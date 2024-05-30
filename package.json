@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "homepage": ".",
-  "type": "module",
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.4",
@@ -56,7 +55,10 @@
     "testEnvironment": "jsdom",
     "setupFiles": [
       "<rootDir>/jest.setup.js"
-    ]
+    ],
+    "transform": {
+      "^.+\\.(js|jsx)$": "babel-jest"
+    }
   },
   "config-overrides-path": "config-overrides.cjs",
   "devDependencies": {
