@@ -3,16 +3,16 @@ import os
 import torch
 import base64
 from io import BytesIO
-from tts.models import GlowTTS
-from tts.config import GlowTTSConfig
-from tts.audio import AudioProcessor
+from TTS.tts.models import GlowTTS
+from TTS.tts.config import GlowTTSConfig
+from TTS.tts.audio import AudioProcessor
 
 app = Flask(__name__)
 
 # Load the trained TTS model
-model_path = "/home/ec2-user/codekijiji.ai/models/kikuyu_glow_tts/model.pth"
-config_path = "/home/ec2-user/codekijiji.ai/models/kikuyu_glow_tts/config.json"
-audio_config_path = "/home/ec2-user/codekijiji.ai/models/kikuyu_glow_tts/audio_config.json"
+model_path = "/home/ubuntu/codekijiji.ai/TTS/tts/models/speakers_xtts.pth"
+config_path = "/home/ubuntu/codekijiji.ai/TTS/tts/models/xtts_config.json"
+audio_config_path = "/home/ubuntu/codekijiji.ai/TTS/tts/models/xtts_vocab.json"
 
 model = GlowTTS.load_from_checkpoint(model_path, config_path)
 audio_processor = AudioProcessor.init_from_config(audio_config_path)
