@@ -72,4 +72,4 @@ def update_tts_audio(n_clicks, text):
 
 # Run the server
 if __name__ == '__main__':
-    app.run_server(debug=False, host='0.0.0.0', port=8050)
+    app.run_server(debug=False, host='0.0.0.0', port=8051)
