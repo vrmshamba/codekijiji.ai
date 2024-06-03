@@ -1,5 +1,4 @@
 {
-    "output_path": "output",
     "logger_uri": null,
     "run_name": "run",
     "project_name": null,
@@ -47,7 +46,12 @@
     "use_noise_augment": false,
     "audio": {
         "sample_rate": 22050,
-        "output_sample_rate": 24000
+        "output_sample_rate": 24000,
+        "frame_length_ms": 50,
+        "frame_shift_ms": 10,
+        "win_length": 1024,
+        "fft_size": 2048,
+        "num_mels": 80
     },
     "use_phonemes": false,
     "phonemizer": null,
