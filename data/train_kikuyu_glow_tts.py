@@ -76,7 +76,7 @@ config = load_config(config_path)
 
 # Ensure characters attribute is set
 if not hasattr(config, 'characters') or config.characters is None:
-    config.characters = BaseCharacters(list("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"'(),-.:;? "))
+    config.characters = BaseCharacters(list("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"'(),-.:;? "), pad="_")
 else:
     print(f"Debug: Characters attribute already set: {config.characters}")
 print(f"Debug: Characters attribute before initializing BaseCharacters: {config.characters}")
@@ -143,7 +143,7 @@ ap = AudioProcessor.init_from_config({
 
 # Ensure characters attribute is set before initializing Tokenizer
 if not hasattr(config, 'characters') or config.characters is None:
-    config.characters = BaseCharacters(list("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"'(),-.:;? "))
+    config.characters = BaseCharacters(list("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"'(),-.:;? "), pad="_")
 # Debug: Print the characters attribute to verify it is set correctly
 print(f"Debug: Characters attribute before initializing Tokenizer: {config.characters}")
 
