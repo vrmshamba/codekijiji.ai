@@ -79,6 +79,7 @@ if not hasattr(config, 'characters') or config.characters is None:
     config.characters = BaseCharacters(list("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"'(),-.:;? "))
 else:
     print(f"Debug: Characters attribute already set: {config.characters}")
+print(f"Debug: Characters attribute before initializing BaseCharacters: {config.characters}")
 
 # Debug: Print the loaded configuration to verify values
 print(f"Debug: Loaded configuration: {config}")
