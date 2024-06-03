@@ -142,9 +142,11 @@ ap = AudioProcessor.init_from_config({
 # Ensure characters attribute is set before initializing Tokenizer
 if not hasattr(config, 'characters') or config.characters is None:
     config.characters = list("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"'(),-.:;? ")
+# Debug: Print the characters attribute to verify it is set correctly
+print(f"Debug: Characters attribute before initializing Tokenizer: {config.characters}")
 
-# Initialize Tokenizer
-tokenizer = TTSTokenizer(config)
+# Initialize Tokenizer with explicit characters attribute
+tokenizer = TTSTokenizer(config.characters)
 
 # Prepare Dataset
 dataset = TTSDataset(
