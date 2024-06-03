@@ -27,6 +27,16 @@ The future development roadmap for the `codekijiji.ai` project includes:
 - **User Experience**: Improving the user interface and experience based on user feedback.
 - **Partnerships**: Establishing partnerships with educational institutions and cultural organizations to expand the project's reach.
 
+## Demonstration
+### TTS System with Kikuyu Voiceovers
+Once the TTS model is trained and integrated into the API, we will demonstrate the TTS system's capabilities by generating voiceovers in Kikuyu. This will provide a tangible example of the project's potential and serve as a proof of concept for investors.
+
+## Technical Challenges
+During the development process, several technical challenges were encountered and addressed:
+- **Dependency Issues**: Resolved various ImportErrors and ModuleNotFoundErrors related to the TTS API, including issues with `libtorch_cuda.so`, `GlowTTS`, `GlowTTSConfig`, and OpenSSL compatibility.
+- **Configuration Errors**: Ensured that various audio configuration parameters (`frame_length_ms`, `frame_shift_ms`, `fft_size`, `num_mels`, `win_length`) were set correctly in the `config` object.
+- **Training Script Errors**: Corrected errors in the training script, including `TypeError` and `AttributeError`, to ensure successful model training.
+
 ## Potential Questions
 Investors may have the following questions:
 - **What is the current state of the project?**
