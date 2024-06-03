@@ -9,6 +9,7 @@ from TTS.utils.audio import AudioProcessor
 from TTS.tts.datasets.dataset import TTSDataset
 from TTS.tts.utils.text.tokenizer import TTSTokenizer
 from TTS.config import load_config
+from TTS.tts.utils.text.characters import BaseCharacters
 
 def custom_formatter(file_path, text, dataset_path, **kwargs):
     # Assuming the metadata file has the format: 'filename.wav|transcript|'
@@ -75,7 +76,7 @@ config = load_config(config_path)
 
 # Ensure characters attribute is set
 if not hasattr(config, 'characters') or config.characters is None:
-    config.characters = list("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"'(),-.:;? ")
+    config.characters = BaseCharacters(list("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"'(),-.:;? "))
 else:
     print(f"Debug: Characters attribute already set: {config.characters}")
 
@@ -141,7 +142,7 @@ ap = AudioProcessor.init_from_config({
 
 # Ensure characters attribute is set before initializing Tokenizer
 if not hasattr(config, 'characters') or config.characters is None:
-    config.characters = list("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"'(),-.:;? ")
+    config.characters = BaseCharacters(list("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"'(),-.:;? "))
 # Debug: Print the characters attribute to verify it is set correctly
 print(f"Debug: Characters attribute before initializing Tokenizer: {config.characters}")
 
