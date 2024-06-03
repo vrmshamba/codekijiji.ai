@@ -74,7 +74,10 @@ audio_config_path = "/home/ubuntu/codekijiji.ai/TTS/tts/models/xtts_config.json"
 config = load_config(config_path)
 
 # Ensure characters attribute is set
-config.characters = list("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"'(),-.:;? ")
+if not hasattr(config, 'characters') or config.characters is None:
+    config.characters = list("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"'(),-.:;? ")
+else:
+    print(f"Debug: Characters attribute already set: {config.characters}")
 
 # Debug: Print the loaded configuration to verify values
 print(f"Debug: Loaded configuration: {config}")
@@ -135,6 +138,10 @@ ap = AudioProcessor.init_from_config({
     "fft_size": config.audio["fft_size"],
     "num_mels": config.audio["num_mels"]
 })
+
+# Ensure characters attribute is set before initializing Tokenizer
+if not hasattr(config, 'characters') or config.characters is None:
+    config.characters = list("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"'(),-.:;? ")
 
 # Initialize Tokenizer
 tokenizer = TTSTokenizer(config)
