@@ -18,6 +18,9 @@ audio_config_path = "/home/ubuntu/codekijiji.ai/TTS/tts/models/xtts_config.json"
 
 # load the audio processor
 audio_config = load_config(audio_config_path)
+audio_config = audio_config.audio  # Ensure we are accessing the 'audio' dictionary
+audio_config['frame_length_ms'] = audio_config.get('frame_length_ms', 50)
+audio_config['frame_shift_ms'] = audio_config.get('frame_shift_ms', 10)
 AP = AudioProcessor(**audio_config)
 
 # init tts model
