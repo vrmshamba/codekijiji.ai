@@ -21,11 +21,17 @@ audio_config_path = "/home/ubuntu/codekijiji.ai/TTS/tts/models/xtts_config.json"
 audio_config = load_config(audio_config_path)
 audio_config = audio_config.audio
 
+# Debug print statements to check the type of audio_config
+print("Type of audio_config before setting defaults:", type(audio_config))
+
 # Ensure frame_length_ms and frame_shift_ms are not None
 if audio_config.get("frame_length_ms") is None:
     audio_config["frame_length_ms"] = 50
 if audio_config.get("frame_shift_ms") is None:
     audio_config["frame_shift_ms"] = 10
+
+# Debug print statements to check the type of audio_config after setting defaults
+print("Type of audio_config after setting defaults:", type(audio_config))
 
 # Convert audio_config to dictionary
 audio_config_dict = audio_config.to_dict()
@@ -38,6 +44,10 @@ print("frame_shift_ms:", audio_config_dict.get("frame_shift_ms"))
 # Additional debug print statements
 print("Before AudioProcessor instantiation:")
 print("audio_config_dict:", audio_config_dict)
+
+# Ensure frame_length_ms and frame_shift_ms are correctly set
+audio_config_dict["frame_length_ms"] = audio_config_dict.get("frame_length_ms", 50)
+audio_config_dict["frame_shift_ms"] = audio_config_dict.get("frame_shift_ms", 10)
 
 # instantiate the audio processor
 AP = AudioProcessor(**audio_config_dict)
