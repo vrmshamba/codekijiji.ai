@@ -71,11 +71,14 @@ AP = AudioProcessor(**audio_config_dict)
 config = GlowTTSConfig()
 config.load_json(file_name=config_path)
 
-# Ensure num_chars and hidden_channels are set correctly
-num_chars = int(config.get('num_chars', 255))  # Set to the value from xtts_config.json
-hidden_channels = int(config.get('hidden_channels', 1024))  # Set to the value from xtts_config.json
-config.num_chars = num_chars
-config.hidden_channels = hidden_channels
+# Ensure config is not None and set num_chars and hidden_channels correctly
+if config:
+    num_chars = int(config.num_chars) if config.num_chars is not None else 255  # Set to the value from xtts_config.json
+    hidden_channels = int(config.hidden_channels) if config.hidden_channels is not None else 1024  # Set to the value from xtts_config.json
+    config.num_chars = num_chars
+    config.hidden_channels = hidden_channels
+else:
+    raise ValueError("Failed to load configuration from xtts_config.json")
 
 model = GlowTTS(config)
 model.eval()
