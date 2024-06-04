@@ -36,6 +36,10 @@ if audio_config.get("win_length") is None or audio_config["win_length"] > audio_
 if audio_config.get("fft_size") is None:
     audio_config["fft_size"] = 2048
 
+# Ensure num_mels is correctly set
+if audio_config.get("num_mels") is None:
+    audio_config["num_mels"] = 80
+
 # Debug print statements to check the type of audio_config after setting defaults
 print("Type of audio_config after setting defaults:", type(audio_config))
 
@@ -48,16 +52,18 @@ print("frame_length_ms:", audio_config_dict.get("frame_length_ms"))
 print("frame_shift_ms:", audio_config_dict.get("frame_shift_ms"))
 print("win_length:", audio_config_dict.get("win_length"))
 print("fft_size:", audio_config_dict.get("fft_size"))
+print("num_mels:", audio_config_dict.get("num_mels"))
 
 # Additional debug print statements
 print("Before AudioProcessor instantiation:")
 print("audio_config_dict:", audio_config_dict)
 
-# Ensure frame_length_ms and frame_shift_ms are correctly set
+# Ensure frame_length_ms, frame_shift_ms, win_length, fft_size, and num_mels are correctly set
 audio_config_dict["frame_length_ms"] = audio_config_dict.get("frame_length_ms", 50)
 audio_config_dict["frame_shift_ms"] = audio_config_dict.get("frame_shift_ms", 10)
 audio_config_dict["win_length"] = audio_config_dict.get("win_length", 1024)
 audio_config_dict["fft_size"] = audio_config_dict.get("fft_size", 2048)
+audio_config_dict["num_mels"] = audio_config_dict.get("num_mels", 80)
 
 # instantiate the audio processor
 AP = AudioProcessor(**audio_config_dict)
