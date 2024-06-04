@@ -84,6 +84,8 @@ print(f"Debug: Characters attribute before initializing BaseCharacters: {config.
 # Ensure the characters attribute is correctly set before initializing Tokenizer
 if not hasattr(config.characters, 'pad') or config.characters.pad is None:
     config.characters.pad = "_"
+if not hasattr(config.characters, 'char_to_id') or config.characters.char_to_id is None:
+    config.characters.char_to_id = {char: idx for idx, char in enumerate(config.characters.characters)}
 print(f"Debug: Characters attribute before initializing Tokenizer: {config.characters}")
 
 # Initialize Tokenizer with explicit characters attribute
