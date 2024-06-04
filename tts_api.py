@@ -30,6 +30,12 @@ if audio_config.get("frame_length_ms") is None:
 if audio_config.get("frame_shift_ms") is None:
     audio_config["frame_shift_ms"] = 10
 
+# Ensure win_length and fft_size are correctly set
+if audio_config.get("win_length") is None or audio_config["win_length"] > audio_config.get("fft_size", 2048):
+    audio_config["win_length"] = 1024
+if audio_config.get("fft_size") is None:
+    audio_config["fft_size"] = 2048
+
 # Debug print statements to check the type of audio_config after setting defaults
 print("Type of audio_config after setting defaults:", type(audio_config))
 
@@ -40,6 +46,8 @@ audio_config_dict = audio_config.to_dict()
 print("Loaded audio_config:", audio_config_dict)
 print("frame_length_ms:", audio_config_dict.get("frame_length_ms"))
 print("frame_shift_ms:", audio_config_dict.get("frame_shift_ms"))
+print("win_length:", audio_config_dict.get("win_length"))
+print("fft_size:", audio_config_dict.get("fft_size"))
 
 # Additional debug print statements
 print("Before AudioProcessor instantiation:")
