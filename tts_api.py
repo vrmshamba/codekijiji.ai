@@ -71,14 +71,14 @@ AP = AudioProcessor(**audio_config_dict)
 # load the model config
 config = GlowTTSConfig()
 config_dict = json.load(open(config_path, "r"))
-config.load_json(config_dict["model_args"])
+config.load_json(config_path)
 
 # ensure config is not None and set num_chars and hidden_channels correctly
 if config:
     num_chars = int(config.num_chars) if config.num_chars is not None else 255
-    hidden_channels = int(config.hidden_channels) if config.hidden_channels is not None else 1024
+    hidden_channels = int(config.hidden_channels_dp) if config.hidden_channels_dp is not None else 1024
     config.num_chars = num_chars
-    config.hidden_channels = hidden_channels
+    config.hidden_channels_dp = hidden_channels
 else:
     raise ValueError("Failed to load configuration from xtts_config.json")
 
@@ -86,7 +86,7 @@ else:
 model = GlowTTS(config)
 model_path = "/home/ubuntu/codekijiji.ai/TTS/tts/models/speakers_xtts.pth"
 cp = torch.load(model_path, map_location=torch.device("cpu"))
-model.load_state_dict(cp["model"])
+model.load_state_dict(cp["Claribel Dervla"])
 
 @app.route("/api/tts", methods=["POST"])
 def tts():
