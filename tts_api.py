@@ -56,6 +56,8 @@ print("audio_config_dict:", audio_config_dict)
 # Ensure frame_length_ms and frame_shift_ms are correctly set
 audio_config_dict["frame_length_ms"] = audio_config_dict.get("frame_length_ms", 50)
 audio_config_dict["frame_shift_ms"] = audio_config_dict.get("frame_shift_ms", 10)
+audio_config_dict["win_length"] = audio_config_dict.get("win_length", 1024)
+audio_config_dict["fft_size"] = audio_config_dict.get("fft_size", 2048)
 
 # instantiate the audio processor
 AP = AudioProcessor(**audio_config_dict)
