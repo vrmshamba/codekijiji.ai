@@ -32,6 +32,12 @@ audio_config_dict = audio_config.to_dict()
 
 # Debug print statements
 print("Loaded audio_config:", audio_config_dict)
+print("frame_length_ms:", audio_config_dict.get("frame_length_ms"))
+print("frame_shift_ms:", audio_config_dict.get("frame_shift_ms"))
+
+# Additional debug print statements
+print("Before AudioProcessor instantiation:")
+print("audio_config_dict:", audio_config_dict)
 
 # instantiate the audio processor
 AP = AudioProcessor(**audio_config_dict)
