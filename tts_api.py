@@ -72,8 +72,8 @@ config = GlowTTSConfig()
 config.load_json(file_name=config_path)
 
 # Ensure num_chars and hidden_channels are set correctly
-num_chars = config.get('num_chars', 255)  # Set to the value from xtts_config.json
-hidden_channels = config.get('hidden_channels', 1024)  # Set to the value from xtts_config.json
+num_chars = int(config.get('num_chars', 255))  # Set to the value from xtts_config.json
+hidden_channels = int(config.get('hidden_channels', 1024))  # Set to the value from xtts_config.json
 config.num_chars = num_chars
 config.hidden_channels = hidden_channels
 
