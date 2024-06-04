@@ -18,7 +18,6 @@ audio_config_path = "/home/ubuntu/codekijiji.ai/TTS/tts/models/xtts_config.json"
 
 # load the audio processor
 audio_config = load_config(audio_config_path)
-audio_config.pop('output_path', None)  # Remove the 'output_path' key if it exists
 AP = AudioProcessor(**audio_config)
 
 # init tts model
