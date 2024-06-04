@@ -78,11 +78,16 @@ config = load_config(config_path)
 if not hasattr(config, 'characters') or config.characters is None:
     config.characters = BaseCharacters(list("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"'(),-.:;? "), pad="_")
 else:
-    print(f"Debug: Characters attribute already set: {config.characters}")
+    config.characters = BaseCharacters(config.characters.characters, pad=config.characters.pad)
 print(f"Debug: Characters attribute before initializing BaseCharacters: {config.characters}")
 
-# Debug: Print the loaded configuration to verify values
-print(f"Debug: Loaded configuration: {config}")
+# Ensure the characters attribute is correctly set before initializing Tokenizer
+if not hasattr(config.characters, 'pad') or config.characters.pad is None:
+    config.characters.pad = "_"
+print(f"Debug: Characters attribute before initializing Tokenizer: {config.characters}")
+
+# Initialize Tokenizer with explicit characters attribute
+tokenizer = TTSTokenizer(characters=config.characters)
 
 # Ensure frame_length_ms and frame_shift_ms are set
 if 'audio' not in config:
