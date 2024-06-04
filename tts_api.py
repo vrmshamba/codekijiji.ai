@@ -9,6 +9,7 @@ import os
 import torch
 import io
 from flask import send_file
+from TTS.tts.models.glow_tts import GlowTTS  # Added import statement for GlowTTS
 
 app = Flask(__name__)
 
@@ -29,9 +30,24 @@ frame_shift_ms = audio_config.get('frame_shift_ms', 10)
 audio_config['frame_length_ms'] = frame_length_ms
 audio_config['frame_shift_ms'] = frame_shift_ms
 
-# Debug print statements to check the values of frame_length_ms and frame_shift_ms
+# Ensure win_length is not larger than fft_size
+win_length = audio_config.get('win_length', 1024)
+fft_size = audio_config.get('fft_size', 2048)
+if win_length > fft_size:
+    win_length = fft_size
+audio_config['win_length'] = win_length
+audio_config['fft_size'] = fft_size
+
+# Ensure num_mels is set to a valid integer
+num_mels = audio_config.get('num_mels', 80)
+audio_config['num_mels'] = num_mels
+
+# Debug print statements to check the values of frame_length_ms, frame_shift_ms, win_length, fft_size, and num_mels
 print("frame_length_ms:", frame_length_ms)
 print("frame_shift_ms:", frame_shift_ms)
+print("win_length:", win_length)
+print("fft_size:", fft_size)
+print("num_mels:", num_mels)
 
 # Remove 'output_path' key if it exists to avoid conflicts
 audio_config.pop('output_path', None)
@@ -42,15 +58,25 @@ audio_config_dict = {key: value for key, value in audio_config.items()}
 # Debug print statement to check the structure of audio_config_dict
 print("audio_config_dict:", audio_config_dict)
 
-# Ensure frame_length_ms and frame_shift_ms are correctly set in the audio_config_dict
+# Ensure frame_length_ms, frame_shift_ms, win_length, fft_size, and num_mels are correctly set in the audio_config_dict
 audio_config_dict['frame_length_ms'] = frame_length_ms
 audio_config_dict['frame_shift_ms'] = frame_shift_ms
+audio_config_dict['win_length'] = win_length
+audio_config_dict['fft_size'] = fft_size
+audio_config_dict['num_mels'] = num_mels
 
 AP = AudioProcessor(**audio_config_dict)
 
 # init tts model
 config = GlowTTSConfig()
 config.load_json(file_name=config_path)
+
+# Ensure num_chars and hidden_channels are set correctly
+num_chars = config.get('num_chars', 255)  # Set to the value from xtts_config.json
+hidden_channels = config.get('hidden_channels', 1024)  # Set to the value from xtts_config.json
+config.num_chars = num_chars
+config.hidden_channels = hidden_channels
+
 model = GlowTTS(config)
 model.eval()
 
