@@ -14,7 +14,7 @@ app = Flask(__name__)
 
 # load configs
 config_path = "/home/ubuntu/codekijiji.ai/TTS/tts/models/xtts_config.json"
-audio_config_path = "/home/ubuntu/codekijiji.ai/TTS/tts/models/config.json"
+audio_config_path = "/home/ubuntu/codekijiji.ai/TTS/tts/models/xtts_config.json"
 
 # load the audio processor
 audio_config = load_config(audio_config_path)
