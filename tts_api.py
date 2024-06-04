@@ -19,9 +19,34 @@ audio_config_path = "/home/ubuntu/codekijiji.ai/TTS/tts/models/xtts_config.json"
 # load the audio processor
 audio_config = load_config(audio_config_path)
 audio_config = audio_config.audio  # Ensure we are accessing the 'audio' dictionary
-audio_config['frame_length_ms'] = audio_config.get('frame_length_ms', 50)
-audio_config['frame_shift_ms'] = audio_config.get('frame_shift_ms', 10)
-AP = AudioProcessor(**audio_config)
+
+# Debug print statements to check the structure of audio_config
+print("Loaded audio_config:", audio_config)
+
+# Ensure frame_length_ms and frame_shift_ms are set correctly
+frame_length_ms = audio_config.get('frame_length_ms', 50)
+frame_shift_ms = audio_config.get('frame_shift_ms', 10)
+audio_config['frame_length_ms'] = frame_length_ms
+audio_config['frame_shift_ms'] = frame_shift_ms
+
+# Debug print statements to check the values of frame_length_ms and frame_shift_ms
+print("frame_length_ms:", frame_length_ms)
+print("frame_shift_ms:", frame_shift_ms)
+
+# Remove 'output_path' key if it exists to avoid conflicts
+audio_config.pop('output_path', None)
+
+# Ensure audio_config is a dictionary
+audio_config_dict = {key: value for key, value in audio_config.items()}
+
+# Debug print statement to check the structure of audio_config_dict
+print("audio_config_dict:", audio_config_dict)
+
+# Ensure frame_length_ms and frame_shift_ms are correctly set in the audio_config_dict
+audio_config_dict['frame_length_ms'] = frame_length_ms
+audio_config_dict['frame_shift_ms'] = frame_shift_ms
+
+AP = AudioProcessor(**audio_config_dict)
 
 # init tts model
 config = GlowTTSConfig()
